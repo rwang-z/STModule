@@ -26,7 +26,7 @@ Linux
 
 ## Example analysis
 
-Demonstration of how to use STModule: <a href="https://rwang-z.github.io/STModule/example_analysis.md" title="Example Analysis">Here</a>
+Demonstration of how to use STModule: <a href="https://github.com/rwang-z/STModule/blob/main/example_analysis.md" title="Example Analysis">Here</a>
 
 
 
