@@ -336,10 +336,12 @@ The function will first load and pre-process the data of section B and estimate 
 Example for the breast cancer data, estimating the spatial maps of the tissue modules on another section called ‘layer 1’:
 
 ```r
+# estimate the spatial maps
 count_file = 'data/st_bc1_count_matrix.txt'
 loc_file = 'data/st_bc1_locations.txt'
 spatial_maps <- run_spatial_map_estimation(res, count_file , loc_file)
 
+# plot the spatial maps
 plots <- spatial_map_visualization(spatial_maps)
 pdf('plots/spatial_maps_st_bc1.pdf')
 for(p in plots){
