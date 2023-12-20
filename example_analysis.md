@@ -15,7 +15,7 @@
 
 [Associated genes of the tissue modules](#associated_genes)
 
-[Visualize spatial expression interested genes](#visualize-spatial_expression)
+[Visualize spatial expression of interested genes](#visualize-spatial_expression)
 
 [Applying the tissue modules to another tissue section](#apply-to-others)
 
@@ -261,7 +261,7 @@ Gene activities of the tissue module indicating DCIS illustrated above:
 
 &nbsp;
 
-## Visualize spatial expression interested genes<a id='visualize-spatial_expression'></a>
+## Visualize spatial expression of interested genes<a id='visualize-spatial_expression'></a>
 
 We also provide a function spatial_expression_visualization to plot the spatial expression of a list of interested genes:
 
