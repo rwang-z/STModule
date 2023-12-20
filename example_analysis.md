@@ -194,7 +194,7 @@ for(p in plots){
 dev.off()
 ```
 
-Spatial map of the tissue module indicating ductal carcinoma in situ (DCIS):
+Spatial map of the tissue module representing ductal carcinoma in situ (DCIS):
 
 <img width="300" alt="example_spatial_map" src="https://github.com/rwang-z/STModule/assets/57746198/55977a89-7029-44bd-a27e-1076adf05540">
 
@@ -254,7 +254,7 @@ for(p in plots){
 dev.off()
 ```
 
-Gene activities of the tissue module indicating DCIS illustrated above:
+Gene activities of the tissue module representing DCIS illustrated above:
 
 <img width="500" alt="example_gene_activity" src="https://github.com/rwang-z/STModule/assets/57746198/fad94f9e-8b74-4f03-b43d-d14efb0c2dd8">
 
@@ -350,7 +350,7 @@ for(p in plots){
 dev.off()
 ```
 
-Spatial map of the tissue module indicating DCIS for layer 1:
+Spatial map of the tissue module representing DCIS for layer 1:
 
 <img width="300" alt="example_generalization_bc1" src="https://github.com/rwang-z/STModule/assets/57746198/77e71cf3-e1a7-4700-8f6b-57bed5c5ab01">
 
