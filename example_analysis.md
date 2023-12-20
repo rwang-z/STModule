@@ -19,11 +19,11 @@
 
 [Applying the tissue modules to another tissue section](#apply-to-others)
 
-[Example analysis of human dorsolateral prefrontal cortex profiled by 10x Visium](#example-dlpfc)
+[Example analysis: human dorsolateral prefrontal cortex profiled by 10x Visium](#example-dlpfc)
 
-[Example analysis of mouse olfactory bulb profiled by Slide-seqV2](#example-mob)
+[Example analysis: mouse olfactory bulb profiled by Slide-seqV2](#example-mob)
 
-[Example analysis of applying the tissue modules identified from ST MOB data to your own data](#example-mob-application)
+[Example analysis: applying the tissue modules identified from ST MOB data to your own data](#example-mob-application)
 
 &nbsp;
 
@@ -354,7 +354,7 @@ Spatial map of the tissue module indicating DCIS for layer 1:
 
 &nbsp;
 
-## Example analysis of human dorsolateral prefrontal cortex profiled by 10x Visium<a id='example-dlpfc'></a>
+## Example analysis: human dorsolateral prefrontal cortex profiled by 10x Visium<a id='example-dlpfc'></a>
 
 ```r
 source('STModule.r')
@@ -401,7 +401,7 @@ Example of a spatial map:
 &nbsp;
 
 
-## Example analysis of mouse olfactory bulb profiled by Slide-seqV2<a id='example-mob'></a>
+## Example analysis: mouse olfactory bulb profiled by Slide-seqV2<a id='example-mob'></a>
 
 ```r
 source('STModule.r')
@@ -431,7 +431,7 @@ Example of a spatial map:
 
 &nbsp;
 
-## Example analysis of applying the tissue modules identified from ST MOB data to your own data<a id='example-mob-application'></a>
+## Example analysis: applying the tissue modules identified from ST MOB data to your own data<a id='example-mob-application'></a>
 
 We provide the results of STModule on the ST MOB data mentioned the study:
 
