@@ -3,31 +3,31 @@
 &nbsp;
 
 ## Outline
-[Souce STModule](#1-source-STModule)
+[Souce STModule](#source-STModule)
 
-[Data requirement](#2-data-requirement)
+[Data requirement](#data-requirement)
 
-[Data pre-processing](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#3-data-pre-processing)
+[Data pre-processing](#data-pre-processing)
 
-[Run STModule](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#4-run-STModule)
+[Run STModule](#run-STModule)
 
-[Visualize spatial maps of the tissue modules](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#5-visualize-spatial-maps)
+[Visualize spatial maps of the tissue modules](#visualize-spatial-maps)
 
-[Associated genes of the tissue modules](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#6-associated_genes)
+[Associated genes of the tissue modules](#associated_genes)
 
-[Visualize spatial expression interested genes](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#7-visualize-spatial_expression)
+[Visualize spatial expression interested genes](#visualize-spatial_expression)
 
-[Applying the tissue modules to another tissue section](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#8-apply-to-others)
+[Applying the tissue modules to another tissue section](#apply-to-others)
 
-[Example analysis of human dorsolateral prefrontal cortex profiled by 10x Visium](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#9-example-dlpfc)
+[Example analysis of human dorsolateral prefrontal cortex profiled by 10x Visium](#example-dlpfc)
 
-[Example analysis of mouse olfactory bulb profiled by Slide-seqV2](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#9-example-mob)
+[Example analysis of mouse olfactory bulb profiled by Slide-seqV2](#example-mob)
 
-[Example analysis of applying the tissue modules identified from ST MOB data to your own data](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#10-example-mob-generalization)
+[Example analysis of applying the tissue modules identified from ST MOB data to your own data](#example-mob-application)
 
 &nbsp;
 
-## Source STModule<a id='1-source-STModule'></a>
+## Source STModule<a id='source-STModule'></a>
 
 ```r
 > source('STModule.r')
@@ -35,7 +35,7 @@
 
 &nbsp;
 
-## Data requirement<a id='2-data-requirement'></a>
+## Data requirement<a id='data-requirement'></a>
 
 STModule requires the following input data of spatially resolved transcriptomics:
 
@@ -82,7 +82,7 @@ loc_10 18.877 6.984
 
 &nbsp;
 
-## Data pre-processing
+## Data pre-processing<a id='data-pre-processing'></a>
 
 Pre-processing and generating input data for STModule using the function **data_preprocessing**:
 
@@ -131,7 +131,7 @@ data <- data_preprocessing(count_file, loc_file)
 
 &nbsp;
 
-## Run STModule
+## Run STModule<a id='run-STModule'></a>
 
 Run STModule on the generated data using the function **run_STModule**:
 
@@ -161,7 +161,7 @@ res <- run_STModule(data, 10)
 
 &nbsp;
 
-## Visualize spatial maps of the tissue modules
+## Visualize spatial maps of the tissue modules<a id='visualize-spatial-maps'></a>
 
 Plotting spatial maps of the tissue modules using the function **spatial_map_visualization**:
 
@@ -202,7 +202,7 @@ Spatial map of the tissue module indicating ductal carcinoma in situ (DCIS):
 &nbsp;
 
 
-## Associated genes of the tissue modules
+## Associated genes of the tissue modules<a id='associated_genes'></a>
 
 ### Get associated genes and their activities of the tissue modules
 
@@ -260,7 +260,7 @@ Gene activities of the tissue module indicating DCIS illustrated above:
 
 &nbsp;
 
-## Visualize spatial expression interested genes
+## Visualize spatial expression interested genes<a id='visualize-spatial_expression'></a>
 
 We also provide a function spatial_expression_visualization to plot the spatial expression of a list of interested genes:
 
@@ -300,7 +300,7 @@ spatial_expression_visualization(count_file, loc_file, c('SPINT2', 'CD74'))
 
 &nbsp;
 
-## Applying the tissue modules to another tissue section
+## Applying the tissue modules to another tissue section<a id='apply-to-others'></a>
 
 To apply the tissue modules identified from a tissue A to another section B, the same input data of section B is required, including the count matrix and spatial information in the same format as mentioned above. 
 
@@ -352,7 +352,7 @@ Spatial map of the tissue module indicating DCIS for layer 1:
 
 &nbsp;
 
-## Example analysis of human dorsolateral prefrontal cortex profiled by 10x Visium
+## Example analysis of human dorsolateral prefrontal cortex profiled by 10x Visium<a id='example-dlpfc'></a>
 
 ```r
 source('STModule.r')
@@ -398,7 +398,7 @@ Example of a spatial map:
 &nbsp;
 
 
-## Example analysis of mouse olfactory bulb profiled by Slide-seqV2
+## Example analysis of mouse olfactory bulb profiled by Slide-seqV2<a id='example-mob'></a>
 
 ```r
 source('STModule.r')
@@ -427,7 +427,7 @@ Example of a spatial map:
 
 &nbsp;
 
-## Example analysis of applying the tissue modules identified from ST MOB data to your own data
+## Example analysis of applying the tissue modules identified from ST MOB data to your own data<a id='example-mob-application'></a>
 
 We provide the results of STModule on the ST MOB data mentioned the study:
 
