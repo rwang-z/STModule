@@ -2,7 +2,34 @@
 
 &nbsp;
 
-```
+## Outline
+[Souce STModule](#1-source-STModule)
+
+[Data requirement](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#2-data-requirement)
+
+[Data pre-processing](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#3-data-pre-processing)
+
+[Run STModule](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#4-run-STModule)
+
+[Visualize spatial maps of the tissue modules](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#5-visualize-spatial-maps)
+
+[Associated genes of the tissue modules](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#6-associated_genes)
+
+[Visualize spatial expression interested genes](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#7-visualize-spatial_expression)
+
+[Applying the tissue modules to another tissue section](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#8-apply-to-others)
+
+[Example analysis of human dorsolateral prefrontal cortex profiled by 10x Visium](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#9-example-dlpfc)
+
+[Example analysis of mouse olfactory bulb profiled by Slide-seqV2](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#9-example-mob)
+
+[Example analysis of applying the tissue modules identified from ST MOB data to your own data](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#10-example-mob-generalization)
+
+&nbsp;
+
+## Source STModule<a id='1-source-STModule'></a>
+
+```r
 > source('STModule.r')
 ```
 
@@ -18,8 +45,8 @@ STModule requires the following input data of spatially resolved transcriptomics
 
 - cols: gene names
 
-```
-     		GAPDH USP4 MAPKAPK2 CPEB1 LANCL2
+```r
+          GAPDH USP4 MAPKAPK2 CPEB1 LANCL2
 loc_1      1    1        1     0      0
 loc_2      7    0        1     0      0
 loc_3      5    0        0     0      0
@@ -39,7 +66,7 @@ loc_10     4    1        0     0      0
 
 - cols: coordinates of the spots/cells, including two columns ‘x’ and ‘y’
 
-```
+```r
           x     y
 loc_1  17.907 4.967
 loc_2  18.965 5.003
@@ -59,7 +86,7 @@ loc_10 18.877 6.984
 
 Pre-processing and generating input data for STModule using the function **data_preprocessing**:
 
-```
+```r
 data_preprocessing(count_file, loc_file, high_resolution = FALSE, gene_mode = 'HVG', top_hvg = 2000, gene_list = c(), 
                    file_sep = '\t', gene_filtering = 0.1, cell_thresh = 100)
 ```
@@ -96,7 +123,7 @@ data_preprocessing(count_file, loc_file, high_resolution = FALSE, gene_mode = 'H
 
 Example for breast cancer layer 2 profiled by Spatial Transcriptomics:
 
-```
+```r
 count_file = 'data/st_bc2_count_matrix.txt'
 loc_file = 'data/st_bc2_locations.txt'
 data <- data_preprocessing(count_file, loc_file)
@@ -108,7 +135,7 @@ data <- data_preprocessing(count_file, loc_file)
 
 Run STModule on the generated data using the function **run_STModule**:
 
-```
+```r
 run_STModule(data, num_modules, high_resolution = FALSE, max_iter = 2000)
 ```
 
@@ -128,7 +155,7 @@ run_STModule(data, num_modules, high_resolution = FALSE, max_iter = 2000)
 
 Example for the breast cancer data:
 
-```
+```r
 res <- run_STModule(data, 10)
 ```
 
@@ -138,7 +165,7 @@ res <- run_STModule(data, 10)
 
 Plotting spatial maps of the tissue modules using the function **spatial_map_visualization**:
 
-```
+```r
 spatial_map_visualization(res, normalization = 'log', point_size = 6)
 ```
 
@@ -159,7 +186,7 @@ spatial_map_visualization(res, normalization = 'log', point_size = 6)
 
 Example for the breast cancer data:
 
-```
+```r
 plots <- spatial_map_visualization(res, 'log', point_size = 6)
 pdf('plots/st_bc2_spatial_maps.pdf')
 for(p in plots){
@@ -177,9 +204,33 @@ Spatial map of the tissue module indicating ductal carcinoma in situ (DCIS):
 
 ## Associated genes of the tissue modules
 
-### Plotting the activities of associated genes of the tissue modules using the function **associated_gene_visualization**:
+### Get associated genes and their activities of the tissue modules
 
+Use the function **get_assocaited_genes** which returns a data frame with three columns ‘gene’, ‘activity’ and ‘module’:
+
+```r
+get_assocaited_genes(res)
 ```
+
+- res: the result of 'run_STModule' running on a tissue section
+
+
+&nbsp;
+
+Example for the breast cancer data:
+
+```r
+module_genes <- get_assocaited_genes(res)
+write.table(module_genes, file = 'results/st_bc2_module_associated_genes.txt', sep = '\t', row.names = FALSE)
+```
+
+&nbsp;
+
+### Visualize the activities of associated genes:
+
+Plot the activities of the associated genes of the tissue modules using the function **associated_gene_visualization** which returns a list of plots each representing the spatial map of a tissue module:
+
+```r
 associated_gene_visualization(res, quantile_thresh = 0.75)
 ```
 
@@ -189,13 +240,12 @@ associated_gene_visualization(res, quantile_thresh = 0.75)
   
 - quantile_thresh: names will be demonstrated for genes with activity higher than the quantile threshold
 
-The function returns a list of plots each representing the spatial map of a tissue module.
 
 &nbsp;
 
 Example for the breast cancer data:
 
-```
+```r
 plots <- associated_gene_visualization(res)
 pdf('plots/st_pdac_a_st1_associated_gene_activity.pdf')
 for(p in plots){
@@ -204,32 +254,9 @@ for(p in plots){
 dev.off()
 ```
 
-&nbsp;
-
 Gene activities of the tissue module indicating DCIS illustrated above:
 
 **image**
-
-&nbsp;
-
-### Get associated genes and their activities of the tissue modules using the function ***get_assocaited_genes***:
-
-```
-get_assocaited_genes(res)
-```
-
-- res: the result of 'run_STModule' running on a tissue section
-
-The function returns a data frame with three columns ‘gene’, ‘activity’ and ‘module’.
-
-&nbsp;
-
-Example for the breast cancer data:
-
-```
-module_genes <- get_assocaited_genes(res)
-write.table(module_genes, file = 'results/st_bc2_module_associated_genes.txt', sep = '\t', row.names = FALSE)
-```
 
 &nbsp;
 
@@ -237,7 +264,7 @@ write.table(module_genes, file = 'results/st_bc2_module_associated_genes.txt', s
 
 We also provide a function spatial_expression_visualization to plot the spatial expression of a list of interested genes:
 
-```
+```r
 spatial_expression_visualization(count_file, loc_file, gene_list, file_sep = '\t', point_size = 6)
 ```
 
@@ -263,7 +290,7 @@ The function plots the spatial expression of the genes into files in the folder 
 
 Example for the breast cancer data:
 
-```
+```r
 count_file = 'data/st_bc2_count_matrix.txt'
 loc_file = 'data/st_bc2_locations.txt'
 spatial_expression_visualization(count_file, loc_file, c('SPINT2', 'CD74'))
@@ -279,7 +306,7 @@ To apply the tissue modules identified from a tissue A to another section B, the
 
 Spatial maps of the tissue modules on section B can be estimated using the function **run_spatial_map_estimation**:
 
-```
+```r
 run_spatial_map_estimation(res, count_file, loc_file, high_resolution = FALSE, file_sep = '\t', cell_thresh = 100)
 ```
 
@@ -306,7 +333,7 @@ The function will first load and pre-process the data of section B and estimate 
 
 Example for the breast cancer data, estimating the spatial maps of the tissue modules on another section called ‘layer 1’:
 
-```
+```r
 count_file = 'data/st_bc1_count_matrix.txt'
 loc_file = 'data/st_bc1_locations.txt'
 spatial_maps <- run_spatial_map_estimation(res, count_file , loc_file)
@@ -327,7 +354,7 @@ Spatial map of the tissue module indicating DCIS for layer 1:
 
 ## Example analysis of human dorsolateral prefrontal cortex profiled by 10x Visium
 
-```
+```r
 source('STModule.r')
 
 # data pre-processing 
@@ -373,7 +400,7 @@ Example of a spatial map:
 
 ## Example analysis of mouse olfactory bulb profiled by Slide-seqV2
 
-```
+```r
 source('STModule.r')
 
 # data pre-processing 
@@ -400,17 +427,17 @@ Example of a spatial map:
 
 &nbsp;
 
-## Applying the tissue modules identified from ST MOB data to your own data of MOB
+## Example analysis of applying the tissue modules identified from ST MOB data to your own data
 
 We provide the results of STModule on the ST MOB data mentioned the study:
 
-```
+```r
 load('results/STModule_res_st_mob.RData')
 ```
 
 You can apply the tissue modules to other MOB datasets (same data format required as mentioned above) and estimate the corresponding spatial maps using the following code:
 
-```
+```r
 # estimate spatial maps on the new data
 count_file = 'path to the count matrix of your MOB data'
 loc_file = 'path to the spatial information of your MOB data'
@@ -429,7 +456,7 @@ dev.off()
 
 Example of applying the tissue modules to the Slide-seqV2 MOB data:
 
-```
+```r
 source('STModule.r')
 
 load('results/STModule_res_st_mob.RData')
