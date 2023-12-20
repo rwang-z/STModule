@@ -5,7 +5,7 @@
 ## Outline
 [Souce STModule](#1-source-STModule)
 
-[Data requirement](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#2-data-requirement)
+[Data requirement](#2-data-requirement)
 
 [Data pre-processing](https://github.com/rwang-z/STModule/edit/main/example_analysis.md#3-data-pre-processing)
 
@@ -35,7 +35,7 @@
 
 &nbsp;
 
-## Data requirement
+## Data requirement<a id='2-data-requirement'></a>
 
 STModule requires the following input data of spatially resolved transcriptomics:
 
