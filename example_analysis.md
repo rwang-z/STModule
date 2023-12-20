@@ -139,7 +139,6 @@ Run STModule on the generated data using the function **run_STModule**:
 run_STModule(data, num_modules, high_resolution = FALSE, max_iter = 2000)
 ```
 
-
 **Parameters**:
 - data: result of the function ***data_preprocessing***, generated data after data preprocessing
   
@@ -197,7 +196,8 @@ dev.off()
 
 Spatial map of the tissue module indicating ductal carcinoma in situ (DCIS):
 
-**image**
+<img width="300" alt="example_spatial_map" src="https://github.com/rwang-z/STModule/assets/57746198/55977a89-7029-44bd-a27e-1076adf05540">
+
 
 &nbsp;
 
@@ -256,7 +256,8 @@ dev.off()
 
 Gene activities of the tissue module indicating DCIS illustrated above:
 
-**image**
+<img width="500" alt="example_gene_activity" src="https://github.com/rwang-z/STModule/assets/57746198/fad94f9e-8b74-4f03-b43d-d14efb0c2dd8">
+
 
 &nbsp;
 
@@ -296,7 +297,8 @@ loc_file = 'data/st_bc2_locations.txt'
 spatial_expression_visualization(count_file, loc_file, c('SPINT2', 'CD74'))
 ```
 
-**image**
+<img width="300" alt="example_spatial_expression" src="https://github.com/rwang-z/STModule/assets/57746198/464e3945-11dc-441f-9ef4-6599b43dfc3b">
+<img width="300" alt="example_spatial_expression_cd74" src="https://github.com/rwang-z/STModule/assets/57746198/83c0922c-62fc-45a9-817d-99271b1f5edc">
 
 &nbsp;
 
@@ -348,7 +350,7 @@ dev.off()
 
 Spatial map of the tissue module indicating DCIS for layer 1:
 
-**image**
+<img width="300" alt="example_generalization_bc1" src="https://github.com/rwang-z/STModule/assets/57746198/77e71cf3-e1a7-4700-8f6b-57bed5c5ab01">
 
 &nbsp;
 
@@ -393,7 +395,8 @@ spatial_expression_visualization(count_file, loc_file, c('AQP4', 'PCP4'), point_
 
 Example of a spatial map:
 
-**image**
+<img width="300" alt="example_dlpfc" src="https://github.com/rwang-z/STModule/assets/57746198/643ce62b-43cc-4ca2-9886-345e0d08ce5b">
+
 
 &nbsp;
 
@@ -423,7 +426,8 @@ dev.off()
 
 Example of a spatial map:
 
-**image**
+<img width="500" alt="example_mob_slide_seqv2" src="https://github.com/rwang-z/STModule/assets/57746198/be1f58d9-86ae-4bcd-84ee-cd69adbef8a9">
+
 
 &nbsp;
 
@@ -473,6 +477,11 @@ for(p in plots){
 dev.off()
 ```
 
+Spatial maps of tissue modules identified from ST MOB data:
+
+
+
+Estimated spatial maps of the tissue modules for the Slide-seqV2 MOB data:
 
 
 
