@@ -43,7 +43,7 @@ STModule requires the following input data of spatially resolved transcriptomics
 
 - rows: id of spots/cells
 
-- cols: gene names
+- columns: gene names
 
 ```r
           GAPDH USP4 MAPKAPK2 CPEB1 LANCL2
@@ -64,7 +64,7 @@ loc_10     4    1        0     0      0
 
 - rows: id of spots/cells (same ids with the count matrix)
 
-- cols: coordinates of the spots/cells, including two columns ‘x’ and ‘y’
+- columns: coordinates of the spots/cells, including two columns ‘x’ and ‘y’
 
 ```r
           x     y
@@ -84,7 +84,7 @@ loc_10 18.877 6.984
 
 ## Data pre-processing<a id='data-pre-processing'></a>
 
-Pre-processing and generating input data for STModule using the function **data_preprocessing**:
+Pre-processing and generating input data for STModule using the function `data_preprocessing`:
 
 ```r
 data_preprocessing(count_file, loc_file, high_resolution = FALSE, gene_mode = 'HVG', top_hvg = 2000, gene_list = c(), 
@@ -93,31 +93,31 @@ data_preprocessing(count_file, loc_file, high_resolution = FALSE, gene_mode = 'H
 
 
 **Parameters**:
-- count_file: path and file name of the count matrix
+- `count_file`: path and file name of the count matrix
 
-- loc_file: path and file name of the spatial information
+- `loc_file`: path and file name of the spatial information
 
-- high_resolution: to indicate spatial resolution of the data
-  - TRUE: data profiled by 'Slide-seq', 'Slide-seqV2', 'Stereo-seq', etc.
-  - FALSE: data profiled by 'ST', '10x Visium', etc. (default)
+- `high_resolution`: to indicate spatial resolution of the data
+  - `high_resolution = TRUE`: used for data profiled by 'Slide-seq', 'Slide-seqV2', 'Stereo-seq', etc.
+  - `high_resolution = FALSE`: used for data profiled by 'ST', '10x Visium', etc. (default)
   
-- gene_mode: how to select genes for the analysis
-  - 'HVG': to use top highly variable genes selected by Seurat (default)
-  - 'selected': to use user-selected genes included in the filtered data, provided by the 'gene_list' parameter
-  - 'combined': to use the combination of top HVGs and user-selected genes
+- `gene_mode`: how to select genes for the analysis
+  - `gene_mode = 'HVG'`: to use top highly variable genes selected by Seurat (default)
+  - `gene_mode = 'selected'`: to use user-selected genes included in the filtered data, provided by the `gene_list` parameter
+  - `gene_mode = 'combined'`: to use the combination of top HVGs and user-selected genes
 
-- top_hvg: the number of top HVGs to use in the analysis, default 2000
+- `top_hvg`: the number of top HVGs to use in the analysis, default 2000
 
-- gene_list: a vector of genes that the user want to use in the analysis, default: c()
+- `gene_list`: a vector of genes that the user want to use in the analysis, default: c()
 
-- file_sep: the field separator character, default '\t'
+- `file_sep`: the field separator character, default '\t'
   
-- gene_filtering: parameter to filter the genes, removing genes expressed in less than gene_filtering locations/cells
-  - when high_resolution is FALSE: gene_filtering indicates the threshold of percentage of locations (default 0.1)
-  - when high_resolution is TRUE: gene_filtering indicates the threshold of number of cells
+- `gene_filtering`: parameter to filter the genes, removing genes expressed in less than gene_filtering locations/cells
+  - when `high_resolution = FALSE`: gene_filtering indicates the threshold of percentage of locations (default 0.1)
+  - when `high_resolution = TRUE`: gene_filtering indicates the threshold of number of cells
   
-- cell_thresh: parameter to filter cells for high-resolution data, removing cells with less than cell_thresh counts (default 100)
-  - used when high_resolution is TRUE
+- `cell_thresh`: parameter to filter cells for high-resolution data, removing cells with less than cell_thresh counts (default 100)
+  - used when `high_resolution = TRUE`
 
 &nbsp;
 
@@ -133,22 +133,22 @@ data <- data_preprocessing(count_file, loc_file)
 
 ## Run STModule<a id='run-STModule'></a>
 
-Run STModule on the generated data using the function **run_STModule**:
+Run STModule on the generated data using the function `run_STModule`:
 
 ```r
 run_STModule(data, num_modules, high_resolution = FALSE, max_iter = 2000)
 ```
 
 **Parameters**:
-- data: result of the function ***data_preprocessing***, generated data after data preprocessing
+- `data`: result of the function `data_preprocessing`, generated data after data preprocessing
   
-- num_modules: number of tissue modules to identify
+- `num_modules`: number of tissue modules to identify
   
-- high_resolution: to indicate spatial resolution of the data
-  - TRUE: data profiled by 'Slide-seq', 'Slide-seqV2', 'Stereo-seq', etc.
-  - FALSE: data profiled by 'ST', '10x Visium', etc. (default)
-  
-- max_iter: maximum iteration, default 2000
+- `high_resolution`: to indicate spatial resolution of the data
+  - `high_resolution = TRUE`: used for data profiled by 'Slide-seq', 'Slide-seqV2', 'Stereo-seq', etc.
+  - `high_resolution = FALSE`: used for data profiled by 'ST', '10x Visium', etc. (default)
+
+- `max_iter`: maximum iteration, default 2000
 
 &nbsp;
 
@@ -162,24 +162,23 @@ res <- run_STModule(data, 10)
 
 ## Visualize spatial maps of the tissue modules<a id='visualize-spatial-maps'></a>
 
-Plotting spatial maps of the tissue modules using the function **spatial_map_visualization**:
+Plotting spatial maps of the tissue modules using the function `spatial_map_visualization`:
 
 ```r
 spatial_map_visualization(res, normalization = 'log', point_size = 6)
 ```
 
 **Parameters**:
-- res: result of function **run_STModule**
+- `res`: result of function `run_STModule`
   
-- normalization: normalization method of spatial maps
-  - 'log': log-transformation by keeping the direction of activities (default)
-  - 'scale': scale the spatial map of each module to a vector with zero-mean and unit-variance
+- `normalization`: normalization method of spatial maps
+  - `normalization = 'log'`: log-transformation by keeping the direction of activities (default)
+  - `normalization = 'scale'`: scale the spatial map of each module to a vector with zero-mean and unit-variance
     
-- point_size: size of points in the plots
-  recommended point size for some SRT technologies:
-  - ST data: point_size = 6
-  - 10x Visium data: point_size = 2
-  - Slide-seqV2 and Stereo-seq data: point_size = 0.3
+- `point_size`: size of points in the plots. Recommended point size for some SRT technologies:
+  - ST data: `point_size = 6`
+  - 10x Visium data: `point_size = 2`
+  - Slide-seqV2 and Stereo-seq data: `point_size = 0.3`
 
 &nbsp;
 
@@ -206,13 +205,13 @@ Spatial map of the tissue module representing ductal carcinoma in situ (DCIS):
 
 ### Get associated genes and their activities of the tissue modules
 
-Use the function **get_assocaited_genes** which returns a data frame with three columns ‘gene’, ‘activity’ and ‘module’:
+Use the function `get_assocaited_genes` which returns a data frame with three columns ‘gene’, ‘activity’ and ‘module’:
 
 ```r
 get_assocaited_genes(res)
 ```
 
-- res: the result of 'run_STModule' running on a tissue section
+- `res`: the result of `run_STModule` running on a tissue section
 
 
 &nbsp;
@@ -228,7 +227,7 @@ write.table(module_genes, file = 'results/st_bc2_module_associated_genes.txt', s
 
 ### Visualize the activities of associated genes:
 
-Plot the activities of the associated genes of the tissue modules using the function **associated_gene_visualization** which returns a list of plots each representing the spatial map of a tissue module:
+Plot the activities of the associated genes of the tissue modules using the function `associated_gene_visualization` which returns a list of plots each representing the spatial map of a tissue module:
 
 ```r
 associated_gene_visualization(res, quantile_thresh = 0.75)
@@ -236,9 +235,9 @@ associated_gene_visualization(res, quantile_thresh = 0.75)
 
 **Parameters**:
 
-- res: the result of 'run_STModule' running on a tissue section
+- `res`: the result of `run_STModule` running on a tissue section
   
-- quantile_thresh: names will be demonstrated for genes with activity higher than the quantile threshold
+- `quantile_thresh`: names will be demonstrated for genes with activity higher than the quantile threshold
 
 
 &nbsp;
@@ -263,7 +262,7 @@ Gene activities of the tissue module representing DCIS illustrated above:
 
 ## Visualize spatial expression of interested genes<a id='visualize-spatial_expression'></a>
 
-We also provide a function spatial_expression_visualization to plot the spatial expression of a list of interested genes:
+We also provide a function `spatial_expression_visualization` to plot the spatial expression of a list of interested genes:
 
 ```r
 spatial_expression_visualization(count_file, loc_file, gene_list, file_sep = '\t', point_size = 6)
@@ -271,19 +270,18 @@ spatial_expression_visualization(count_file, loc_file, gene_list, file_sep = '\t
 
 **Parameters**:
 
-- count_file: path and file name of the count matrix
+- `count_file`: path and file name of the count matrix
 
-- loc_file: path and file name of the spatial information
+- `loc_file`: path and file name of the spatial information
 
-- gene_list: genes to visualize
+- `gene_list`: genes to visualize
 
-- file_sep: the field separator character, default '\t'
+- `file_sep`: the field separator character, default '\t'
 
-- point_size: size of points in the plots
-  recommended point size for some SRT technologies:
-  - ST data: point_size = 6
-  - 10x Visium data: point_size = 2
-  - Slide-seqV2 and Stereo-seq data: point_size = 0.3
+- `point_size`: size of points in the plots. Recommended point size for some SRT technologies:
+  - ST data: `point_size = 6`
+  - 10x Visium data: `point_size = 2`
+  - Slide-seqV2 and Stereo-seq data: `point_size = 0.3`
 
 The function plots the spatial expression of the genes into files in the folder ‘plots’.
 
@@ -306,7 +304,7 @@ spatial_expression_visualization(count_file, loc_file, c('SPINT2', 'CD74'))
 
 To apply the tissue modules identified from a tissue A to another section B, the same input data of section B is required, including the count matrix and spatial information in the same format as mentioned above. 
 
-Spatial maps of the tissue modules on section B can be estimated using the function **run_spatial_map_estimation**:
+Spatial maps of the tissue modules on section B can be estimated using the function `run_spatial_map_estimation`:
 
 ```r
 run_spatial_map_estimation(res, count_file, loc_file, high_resolution = FALSE, file_sep = '\t', cell_thresh = 100)
@@ -314,22 +312,22 @@ run_spatial_map_estimation(res, count_file, loc_file, high_resolution = FALSE, f
 
 **Parameters**:
 
-- res: the result of ***run_STModule*** from tissue section A
+- `res`: the result of `run_STModule` from tissue section A
 
-- count_file: path and file name of the count matrix of tissue section B
+- `count_file`: path and file name of the count matrix of tissue section B
   
-- loc_file: path and file name of the spatial information of tissue section B
+- `loc_file`: path and file name of the spatial information of tissue section B
   
-- high_resolution: to indicate spatial resolution of the SRT data of tissue section B
-      - TRUE: data profiled by 'Slide-seq', 'Slide-seqV2', 'Stereo-seq', etc.
-      - FALSE: data profiled by 'ST', '10x Visium', etc. (default)
+- `high_resolution`: to indicate spatial resolution of the data
+  - `high_resolution = TRUE`: used for data profiled by 'Slide-seq', 'Slide-seqV2', 'Stereo-seq', etc.
+  - `high_resolution = FALSE`: used for data profiled by 'ST', '10x Visium', etc. (default)
 
-- file_sep: the field separator character of the files for tissue section B, default '\t'
+- `file_sep`: the field separator character of the files for tissue section B, default '\t'
   
-- cell_thresh: parameter to filter cells for high-resolution data, removing cells with less than cell_thresh counts (default 100). 
-      - Used for tissue section B when high_resolution is TRUE
+- `cell_thresh`: parameter to filter cells for high-resolution data, removing cells with less than cell_thresh counts (default 100). 
+  - Used for tissue section B when `high_resolution = TRUE`
 
-The function will first load and pre-process the data of section B and estimate the spatial maps of the tissue modules. The spatial maps can be visualized using the function **spatial_map_visualization**.
+The function will first load and pre-process the data of section B and estimate the spatial maps of the tissue modules. The spatial maps can be visualized using the function `spatial_map_visualization`.
 
 &nbsp;
 
