@@ -477,13 +477,17 @@ for(p in plots){
 dev.off()
 ```
 
-Spatial maps of tissue modules identified from ST MOB data:
+&nbsp;
 
+Example of tissue modules identified from ST MOB data and estimated spatial maps for Slide-seqV2 MOB data:
 
+<img width="300" alt="mob_st_1" src="https://github.com/rwang-z/STModule/assets/57746198/fd84f490-08bb-4fd8-b3b0-ea77ed08e8d2">
+<img width="300" alt="mob_st_2" src="https://github.com/rwang-z/STModule/assets/57746198/be0c502d-c77a-4269-88cf-74286005a379">
+<img width="300" alt="mob_st_3" src="https://github.com/rwang-z/STModule/assets/57746198/b0ac93b9-99f7-4e8c-9d37-d27fe140f823">
 
-Estimated spatial maps of the tissue modules for the Slide-seqV2 MOB data:
-
-
+<img width="300" alt="mob_st_to_slide_seqcv2_1" src="https://github.com/rwang-z/STModule/assets/57746198/db8d0023-890c-4321-94cd-cc56df48ca16">
+<img width="300" alt="mob_st_to_slide_seqcv2_2" src="https://github.com/rwang-z/STModule/assets/57746198/e78d597b-b518-4016-97d3-bbb0f338eae1">
+<img width="300" alt="mob_st_to_slide_seqcv2_3" src="https://github.com/rwang-z/STModule/assets/57746198/3676ddd8-9146-4d5c-bafe-5ceeabf5730b">
 
 
 
