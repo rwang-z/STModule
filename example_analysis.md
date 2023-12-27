@@ -81,6 +81,7 @@ loc_10 18.877 6.984
 ```
 
 &nbsp;
+&nbsp;
 
 ## Data pre-processing<a id='data-pre-processing'></a>
 
@@ -130,6 +131,7 @@ data <- data_preprocessing(count_file, loc_file)
 ```
 
 &nbsp;
+&nbsp;
 
 ## Run STModule<a id='run-STModule'></a>
 
@@ -158,6 +160,7 @@ Example for the breast cancer data:
 res <- run_STModule(data, 10)
 ```
 
+&nbsp;
 &nbsp;
 
 ## Visualize spatial maps of the tissue modules<a id='visualize-spatial-maps'></a>
@@ -199,7 +202,7 @@ Spatial map of the tissue module representing ductal carcinoma in situ (DCIS):
 
 
 &nbsp;
-
+&nbsp;
 
 ## Associated genes of the tissue modules<a id='associated_genes'></a>
 
@@ -211,6 +214,7 @@ Use the function `get_assocaited_genes` which returns a data frame with three co
 get_assocaited_genes(res)
 ```
 
+**Parameter**:
 - `res`: the result of `run_STModule` running on a tissue section
 
 
@@ -259,6 +263,7 @@ Gene activities of the tissue module representing DCIS illustrated above:
 
 
 &nbsp;
+&nbsp;
 
 ## Visualize spatial expression of interested genes<a id='visualize-spatial_expression'></a>
 
@@ -298,6 +303,7 @@ spatial_expression_visualization(count_file, loc_file, c('SPINT2', 'CD74'))
 <img width="300" alt="example_spatial_expression" src="https://github.com/rwang-z/STModule/assets/57746198/464e3945-11dc-441f-9ef4-6599b43dfc3b">
 <img width="300" alt="example_spatial_expression_cd74" src="https://github.com/rwang-z/STModule/assets/57746198/83c0922c-62fc-45a9-817d-99271b1f5edc">
 
+&nbsp;
 &nbsp;
 
 ## Applying the tissue modules to another tissue section<a id='apply-to-others'></a>
@@ -353,6 +359,7 @@ Spatial map of the tissue module representing DCIS for layer 1:
 <img width="300" alt="example_generalization_bc1" src="https://github.com/rwang-z/STModule/assets/57746198/77e71cf3-e1a7-4700-8f6b-57bed5c5ab01">
 
 &nbsp;
+&nbsp;
 
 ## Example analysis: human dorsolateral prefrontal cortex profiled by 10x Visium<a id='example-dlpfc'></a>
 
@@ -399,7 +406,7 @@ Example of a spatial map:
 
 
 &nbsp;
-
+&nbsp;
 
 ## Example analysis: mouse olfactory bulb profiled by Slide-seqV2<a id='example-mob'></a>
 
@@ -429,6 +436,7 @@ Example of a spatial map:
 <img width="500" alt="example_mob_slide_seqv2" src="https://github.com/rwang-z/STModule/assets/57746198/be1f58d9-86ae-4bcd-84ee-cd69adbef8a9">
 
 
+&nbsp;
 &nbsp;
 
 ## Example analysis: applying the tissue modules identified from ST MOB data to your own data<a id='example-mob-application'></a>
