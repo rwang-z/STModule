@@ -414,8 +414,8 @@ Example of a spatial map:
 source('STModule.r')
 
 # data pre-processing 
-count_file = 'data/slide_seq_v2_mob_filtered_count_matrix.txt'
-loc_file = 'data/slide_seq_v2_mob_filtered_locations.txt'
+count_file = 'data/slide_seq_v2_mob_count_matrix.txt'
+loc_file = 'data/slide_seq_v2_mob_locations.txt'
 data <- data_preprocessing(count_file, loc_file, high_resolution = TRUE, gene_filtering = 50)
 
 # run STModule
@@ -473,8 +473,8 @@ source('STModule.r')
 
 load('results/STModule_res_st_mob.RData')
 
-count_file = 'data/slide_seq_v2_mob_filtered_count_matrix.txt'
-loc_file = 'data/slide_seq_v2_mob_filtered_locations.txt'
+count_file = 'data/slide_seq_v2_mob_count_matrix.txt'
+loc_file = 'data/slide_seq_v2_mob_locations.txt'
 spatial_maps <- run_spatial_map_estimation(res, count_file, loc_file, high_resolution = TRUE)
 
 plots <- spatial_map_visualization(spatial_maps)
