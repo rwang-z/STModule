@@ -18,7 +18,7 @@ Linux
 
 ### Software dependencies
 
-**R >= 4**
+**R >= 4.0**
 
 **R libraries**: Seurat, ggplot2, ggrepel, viridis
 
