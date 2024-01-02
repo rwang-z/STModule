@@ -175,7 +175,7 @@ spatial_map_visualization(res, normalization = 'log', point_size = 6)
 - `res`: result of function `run_STModule`
   
 - `normalization`: normalization method of spatial maps
-  - `normalization = 'log'`: log-transformation by keeping the direction of activities (default)
+  - `normalization = 'log'`: log-transformation while keeping the direction of activities (default)
   - `normalization = 'scale'`: scale the spatial map of each module to a vector with zero-mean and unit-variance
     
 - `point_size`: size of points in the plots. Recommended point size for some SRT technologies:
