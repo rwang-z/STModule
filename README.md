@@ -10,6 +10,11 @@ For more details, please read the paper: **Exploring tissue modules revealed by 
 
 &nbsp;
 
+![fig_1_workflow_simulation](https://github.com/rwang-z/STModule/assets/57746198/29ada661-6162-4024-98a5-933444103727)
+
+
+&nbsp;
+
 ## System Requirements
 
 ### Operating system
