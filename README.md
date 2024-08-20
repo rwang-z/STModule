@@ -10,7 +10,7 @@ For more details, please read the paper: **Exploring tissue modules revealed by 
 
 &nbsp;
 
-![fig_1_workflow_simulation](https://github.com/rwang-z/STModule/assets/57746198/29321f3d-f486-4ee6-9027-02ae4690df94)
+![fig_1_workflow_simulation_crop](https://github.com/user-attachments/assets/2513ba30-9cf2-442c-9d21-ea7c805a262a)
 
 &nbsp;
 
