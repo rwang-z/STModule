@@ -6,7 +6,7 @@
 
 STModule is a computational method for exploring spatial structures of spatially resolved transcriptomics (SRT) data from the perspective of tissue modules - recurrent cellular communities spatially organized in tissues to exert specific biological functions.
 
-For more details, please read the paper: **Exploring tissue modules revealed by spatially resolved transcriptomics with STModule**.
+For more details, please read the paper: **STModule: identifying tissue modules to uncover spatial components and characteristics of transcriptomic landscapes**.
 
 &nbsp;
 
