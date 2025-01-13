@@ -26,6 +26,8 @@ Linux
 
 **R libraries**: Seurat, ggplot2, ggrepel, viridis
 
+Session info: <a href="https://github.com/rwang-z/STModule/blob/main/sessionInfo.md" title="Session Info">Here</a>
+
 &nbsp;
 
 ## Example analysis
