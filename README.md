@@ -24,7 +24,7 @@ Linux
 
 **R >= 4.0**
 
-**R libraries**: Seurat, ggplot2, ggrepel, viridis
+**R libraries**: Seurat v4, ggplot2, ggrepel, viridis
 
 Session info: <a href="https://github.com/rwang-z/STModule/blob/main/sessionInfo.md" title="Session Info">Here</a>
 
