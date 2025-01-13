@@ -28,6 +28,8 @@ Linux
 
 Session info: <a href="https://github.com/rwang-z/STModule/blob/main/sessionInfo.md" title="Session Info">Here</a>
 
+(We are working on developing an R package that can be installed from Github.)
+
 &nbsp;
 
 ## Example analysis
