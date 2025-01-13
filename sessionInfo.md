@@ -8,7 +8,7 @@ Platform: x86_64-conda-linux-gnu (64-bit)
 Running under: CentOS Linux 7 (Core)
 
 Matrix products: default
-BLAS/LAPACK: /research/d4/rwang/anaconda3/envs/r4_env/lib/libopenblasp-r0.3.12.so
+BLAS/LAPACK: /rwang/anaconda3/envs/r4_env/lib/libopenblasp-r0.3.12.so
 
 locale:
  [1] LC_CTYPE=en_HK.UTF-8       LC_NUMERIC=C
