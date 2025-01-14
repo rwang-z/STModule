@@ -36,6 +36,7 @@ Session info: <a href="https://github.com/rwang-z/STModule/blob/main/sessionInfo
 
 Demonstration of how to use STModule: <a href="https://github.com/rwang-z/STModule/blob/main/example_analysis.md" title="Example Analysis">Here</a>
 
+Functional analysis of tissue modules identified by STModule: results/functional_analysis.docx
 
 
 
