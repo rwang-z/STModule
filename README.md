@@ -8,7 +8,7 @@ STModule is a computational method for exploring spatial structures of spatially
 
 For more details, please read the paper: **STModule: identifying tissue modules to uncover spatial components and characteristics of transcriptomic landscapes**.
 
-Functional analysis of tissue modules identified by STModule: **results/functional_analysis.docx**
+Functional analysis of tissue modules identified by STModule: **results/functional_analysis.pdf**
 
 &nbsp;
 
