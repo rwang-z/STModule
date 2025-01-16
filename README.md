@@ -34,6 +34,8 @@ We are working on developing an R package for STModule.
 
 We have also developed a GPU version of STModule for high-resolution data which will be released soon.
 
+STModule GPU version: <a href="https://github.com/rwang-z/STModule/blob/main/STModule_GPU_version.md" title="STModule GPU version">Here</a>
+
 &nbsp;
 
 ## Example analysis
