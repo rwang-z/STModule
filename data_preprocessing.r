@@ -19,8 +19,8 @@ data_preprocessing = function(count_file, loc_file, high_resolution = FALSE, gen
     # count_file: path and file name of the count matrix
     # loc_file: path and file name of the spatial information
     # high_resolution: to indicate spatial resolution of the data
-    #   - TRUE: used for data profiled by 'Slide-seq', 'Slide-seqV2', 'Stereo-seq', etc.
-    #   - FALSE: used for data profiled by 'ST', '10x Visium', etc. (default)
+    #   - TRUE: data profiled by 'Slide-seq', 'Slide-seqV2', 'Stereo-seq', etc.
+    #   - FALSE: data profiled by 'ST', '10x Visium', etc. (default)
     # gene_mode: how to select genes for the analysis
     #   - 'HVG': to use top highly variable genes selected by Seurat (default)
     #   - 'selected': to use user-selected genes included in the filtered data, provided by the 'gene_list' parameter
@@ -32,7 +32,6 @@ data_preprocessing = function(count_file, loc_file, high_resolution = FALSE, gen
     #   - when high_resolution is FALSE: gene_filtering indicates the threshold of percentage of locations (default 0.1)
     #   - when high_resolution is TRUE: gene_filtering indicates the threshold of number of cells
     # cell_thresh: parameter to filter cells for high-resolution data, removing cells with less than cell_thresh counts (default 100)
-    #   - used when high_resolution is TRUE
 
     # load count matrix
     print('Performing data pre-processing')
@@ -54,7 +53,8 @@ data_preprocessing = function(count_file, loc_file, high_resolution = FALSE, gen
     dataobj <- NormalizeData(dataobj, normalization.method = "RC", scale.factor = 10000) # default setting
     dataobj <- FindVariableFeatures(dataobj, selection.method = 'vst', nfeatures = top_hvg)
     hvgs <- VariableFeatures(dataobj)
-    transformed_mat = GetAssayData(object = dataobj, slot = 'data')
+    # transformed_mat = GetAssayData(object = dataobj, slot = 'data')  # Seurat v4
+    transformed_mat = LayerData(dataobj, assay = "RNA", layer = "data")
     transformed_mat = t(as.matrix(transformed_mat))
     if(gene_mode == 'HVG'){
         selected_genes = hvgs
