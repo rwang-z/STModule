@@ -1,7 +1,7 @@
 # estimating spatial maps of tissue modules on another tissue section
 
 spatial_map_estimation <- function(params, profile, dist_mat, module_loadings, maxiter = 2000, track=10, 
-                                   debugging = 'no', pip_thresh = 1){
+                                   debugging = 'iter_count', iter_count = 5, pip_thresh = 1){
 
     initialise_vars <- function(params, dist_mat){
         list_of_vars <- list()
@@ -244,6 +244,13 @@ spatial_map_estimation <- function(params, profile, dist_mat, module_loadings, m
         # update Lamda
         print('Updating Lamda')
         vars$Lam=updateLam(params)
+
+        # check FE each 10 iterations
+        if(debugging == 'iter_count'){
+            if(iteration %% iter_count == 0){
+                FE_res = check_FE_decreasing(FE_res, params)
+            }
+        }
         
         # evaluate whether to stop...
         if(iteration > 1){
