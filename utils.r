@@ -1,39 +1,40 @@
 # functions
 
-cal_mat_inv = function(mat){
-    mat_inv = tryCatch(chol2inv(chol(mat)),
-                        error = function(e){
-                            tryCatch(return(solve(mat)),
-                                    error = function(e){
-                                        # add noise to cov_mat
-                                        mat_noise = mat + diag(runif(dim(mat)[1], -1e-6, 0))
-                                        return(solve(mat_noise))
-                                    })
-                        })
+cal_mat_inv = function(mat, params){
+    if(params$version == 'cpu'){
+        mat_inv = tryCatch(chol2inv(chol(mat)),
+                            error = function(e){
+                                tryCatch(return(solve(mat)),
+                                        error = function(e){
+                                            # add noise to cov_mat
+                                            mat_noise = mat + diag(runif(dim(mat)[1], -1e-6, 0))
+                                            return(solve(mat_noise))
+                                        })
+                            })
+    }else if(params$version == 'gpu'){
+        mat_inv = tryCatch(solve(mat),
+                            error = function(e){return(ginv(mat))})
+    }
     return(mat_inv)
 }
 
-cal_cov_inv_mat = function(r, dist_mat, inv_method = 'default'){
+cal_cov_inv_mat = function(r, dist_mat, params){
     cov_mat = exp(-0.5 * r * dist_mat)
-    if(inv_method == 'pracma'){
-        cov_inv = cal_mat_inv_pracma(cov_mat)
-    }else{
-        cov_inv = cal_mat_inv(cov_mat)
-    }
+    cov_inv = cal_mat_inv(cov_mat, params)
     return(cov_inv)
 }
 
-cal_cov_inv_list = function(r, dist_mat, inv_method = 'default'){
+cal_cov_inv_list = function(r, dist_mat, params){
     num_comp = dim(r)[1]
     cov_list = list()
     for(c in c(1:num_comp)){
-        cov_list[[c]] = cal_cov_inv_mat(r[c], dist_mat, inv_method)
+        cov_list[[c]] = cal_cov_inv_mat(r[c], dist_mat, params)
     }
     return(cov_list)
 }
 
-cal_cov_inv_list_same = function(r_const, num_comp, dist_mat, inv_method = 'default'){
-    cov_inv = cal_cov_inv_mat(r_const, dist_mat, inv_method)
+cal_cov_inv_list_same = function(r_const, num_comp, dist_mat, params){
+    cov_inv = cal_cov_inv_mat(r_const, dist_mat, params)
     cov_list = list()
     for(c in c(1:num_comp)){
         cov_list[[c]] = cov_inv
@@ -69,6 +70,20 @@ cal_distance_mat = function(locations, dimension = '2D'){
     dist_mat = as.matrix(dist(mat, method = "euclidean"))
     dist_mat = dist_mat^2
     return(dist_mat)
+}
+
+convert_res_to_matrix = function(res){
+    res$A = list(mu = as.matrix(res$A$mu))
+    res$R = list(r = as.matrix(res$R$r))
+    res$Delt = list(c = as.matrix(res$Delt$c), d = as.matrix(res$Delt$d))
+    res$Lam = list(u = as.matrix(res$Lam$u), v = as.matrix(res$Lam$v))
+    res$Beta = list(e = as.matrix(res$Beta$e), f = as.matrix(res$Beta$f))
+    res$Ph = as.matrix(res$Ph)
+    res$Ps = as.matrix(res$Ps)
+    res$Rho = as.matrix(res$Rho)
+    res$X = list(gamma = as.matrix(res$X$gamma), sigma = as.matrix(res$X$sigma), m = as.matrix(res$X$m))
+    res$X$mom1 = as.matrix(res$X$m * res$X$gamma)
+    return(res)
 }
 
 data_filtering = function(count_mat, high_resolution, gene_filtering, cell_thresh = 100){

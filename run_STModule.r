@@ -1,16 +1,19 @@
 source('spatial_factorization.r')
 source('spatial_map_estimation.r')
 
-run_STModule = function(data, num_modules, high_resolution = FALSE,  max_iter = 2000){
+run_STModule = function(data, num_modules, high_resolution = FALSE,  max_iter = 2000, version = 'cpu'){
     # Run STModule on spatially resolved transcriptomics data
 
     ###### parameters ######
-    # data: result of the function data_preprocessing, generated data after data preprocessing
-    # num_modules: number of tissue modules to identify
+    # data: generated data after data preprocessing
+    # num_modules: number of tissue modules
     # high_resolution: to indicate spatial resolution of the data
-    #   - TRUE: used for data profiled by 'Slide-seq', 'Slide-seqV2', 'Stereo-seq', etc.
-    #   - FALSE: used for data profiled by 'ST', '10x Visium', etc. (default)
+    #   - TRUE: data profiled by 'Slide-seq', 'Slide-seqV2', 'Stereo-seq', etc.
+    #   - FALSE: data profiled by 'ST', '10x Visium', etc. (default)
     # max_iter: maximum iteration, default 2000
+    # version: to use CPU or GPU version of STModule
+    #   - 'cpu': for ST data
+    #   - 'gpu': for 10x Visium and high-resolution data
 
     exp_mat = as.matrix(data$exp_mat)
     dist_mat = data$dist_mat
@@ -36,9 +39,16 @@ run_STModule = function(data, num_modules, high_resolution = FALSE,  max_iter = 
     print('Running STModule...')
     fixed_r = ifelse(num_locs > 1000, TRUE, FALSE)
     r_const = ifelse(high_resolution, 0.01, 1)
-    params = list(N = num_locs, L = num_genes, C = num_modules, r_const = r_const, fixed_r = fixed_r, decrease_stop = FALSE,
-                a = 1e-6, b = 1e6, c = 1e-6, d = 1e6, e = 1e-6, f = 1e6, g = 0, h = 0, u = 1e-6, v = 1e6, r = 1, z = 1)
-    res <- spatial_factorization(params, exp_mat, dist_mat, max_iter)
+    params = list(N = num_locs, L = num_genes, C = num_modules, r_const = r_const, fixed_r = fixed_r, 
+                  decrease_stop = FALSE, max_iter = max_iter, version = version, high_resolution = high_resolution,
+                  a = 1e-6, b = 1e6, c = 1e-6, d = 1e6, e = 1e-6, f = 1e6, g = 0, h = 0, u = 1e-6, v = 1e6, r = 1, z = 1)
+    if(version == 'cpu'){
+        res <- spatial_factorization(params, exp_mat, dist_mat, max_iter)
+    }else{
+        source('spatial_factorization_gpu.r')
+        res <- spatial_factorization_gpu(params, exp_mat, dist_mat, max_iter)
+    }
+    
     print("Estimation finished!")
     print(paste(res$maximumiteration,' Iterations were carried out.'))
     res$params = params
@@ -49,19 +59,19 @@ run_STModule = function(data, num_modules, high_resolution = FALSE,  max_iter = 
     return(res)
 }
 
-run_spatial_map_estimation = function(res, count_file, loc_file, high_resolution = FALSE,  file_sep = '\t', cell_thresh = 100){
-    # estimate spatial maps of tissue module identified from tissue A for another tissue section B
+run_spatial_map_estimation = function(res, count_file, loc_file, high_resolution = FALSE,  file_sep = '\t', cell_thresh = 100, version = 'cpu'){
+    # estimate spatial maps of tissue module for a new tissue section
 
     ###### parameters ######
-    # res: the result of 'run_STModule' from tissue section A
-    # count_file: path and file name of the count matrix of tissue section B
-    # loc_file: path and file name of the spatial information of tissue section B
+    # res: the result of 'run_STModule' running on a tissue section
+    # count_file: path and file name of the count matrix of new data
+    # loc_file: path and file name of the spatial information of new data
     # high_resolution: to indicate spatial resolution of the data
-    #   - TRUE: used for data profiled by 'Slide-seq', 'Slide-seqV2', 'Stereo-seq', etc.
-    #   - FALSE: used for data profiled by 'ST', '10x Visium', etc. (default)
-    # file_sep: the field separator character of the files for tissue section B, default '\t'
-    # cell_thresh: parameter to filter cells for high-resolution data, removing cells with less than cell_thresh counts (default 100).
-    #   - Used for tissue section B when high_resolution is TRUE
+    #   - TRUE: data profiled by 'Slide-seq', 'Slide-seqV2', 'Stereo-seq', etc.
+    #   - FALSE: data profiled by 'ST', '10x Visium', etc. (default)
+    # file_sep: the field separator character of the files for the new data, default '\t'
+    # cell_thresh: parameter to filter cells for high-resolution data, removing cells with less than cell_thresh counts (default 100). 
+    #   - Used for the new data.
 
     # genes in tissue modules
     module_genes = res$gene_list
@@ -101,9 +111,16 @@ run_spatial_map_estimation = function(res, count_file, loc_file, high_resolution
     print('Estimating spatial maps of new data ...')
     fixed_r = ifelse(num_locs > 1000, TRUE, FALSE)
     r_const = ifelse(high_resolution, 0.01, 1)
-    params = list(N = num_locs, L = num_genes, C = num_modules, r_const = r_const, fixed_r = fixed_r, decrease_stop = FALSE,
-                a = 1e-6, b = 1e6, c = 1e-6, d = 1e6, e = 1e-6, f = 1e6, g = 0, h = 0, u = 1e-6, v = 1e6, r = 1, z = 1)
-    spatial_map_res <- spatial_map_estimation(params, exp_mat, dist_mat, module_loadings)
+    params = list(N = num_locs, L = num_genes, C = num_modules, r_const = r_const, fixed_r = fixed_r, 
+                  decrease_stop = FALSE, version = version, high_resolution = high_resolution,
+                  a = 1e-6, b = 1e6, c = 1e-6, d = 1e6, e = 1e-6, f = 1e6, g = 0, h = 0, u = 1e-6, v = 1e6, r = 1, z = 1)
+    if(version == 'cpu'){
+        spatial_map_res <- spatial_map_estimation(params, exp_mat, dist_mat, module_loadings)
+    }else if(version == 'gpu'){
+        source('spatial_map_estimation_gpu.r')
+        spatial_map_res <- spatial_map_estimation_gpu(params, exp_mat, dist_mat, module_loadings)
+    }
+    
     print("Estimation finished!")
     print(paste(spatial_map_res$maximumiteration,' Iterations were carried out.'))
     spatial_map_res$params = params

@@ -1,8 +1,7 @@
-# spatial factorization algorithm of STModule
-# returns the results of the variables related to the factor matrices
+# spatial factorization algorithm
 
-spatial_factorization <- function(params, profile, dist_mat, maxiter = 2000, track=10, debugging = 'no',
-                                  pip_thresh = 1, inv_method = 'default'){
+spatial_factorization <- function(params, profile, dist_mat, maxiter = 2000, track=10, 
+                                  debugging = 'no', pip_thresh = 1){
 
     initialise_vars <- function(params, dist_mat){
         list_of_vars <- list()
@@ -15,11 +14,11 @@ spatial_factorization <- function(params, profile, dist_mat, maxiter = 2000, tra
         # R: C by 1, length scale
         if(params$fixed_r){
             list_of_vars$R <- list(r = matrix(params$r_const, params$C, 1),
-                                    cov_inv = cal_cov_inv_list_same(params$r_const, params$C, dist_mat))
+                                    cov_inv = cal_cov_inv_list_same(params$r_const, params$C, dist_mat, params))
         }else{
             r_initial = matrix(runif(params$C, 0.5, 2), params$C, 1)
             list_of_vars$R <- list(r = r_initial,
-                                    cov_inv = cal_cov_inv_list(r_initial, dist_mat, inv_method))
+                                    cov_inv = cal_cov_inv_list(r_initial, dist_mat, params))
         }
         
         # Delta: C by 1, parameter of covariance matrix of MVN, gamma distribution
@@ -89,7 +88,6 @@ spatial_factorization <- function(params, profile, dist_mat, maxiter = 2000, tra
         for(c in c(1:params$C)){
             temp_prod = temp_prod + vars$Delt$mom1[c] * (crossprod(vars$A$mu[, c], vars$R$cov_inv[[c]]) %*% vars$A$mu[, c])
             det_prec = det_prec + cal_precision_log_det(vars$A$precision[[c]])
-
         }
         FE = FE - 0.5 * temp_prod - 0.5 * det_prec
 
@@ -160,11 +158,7 @@ spatial_factorization <- function(params, profile, dist_mat, maxiter = 2000, tra
             prec_term_2 = vars$Delt$mom1[c] * vars$R$cov_inv[[c]]
             prec_mat = prec_term_1 + prec_term_2
             A$precision[[c]] = prec_mat
-            if(inv_method == 'pracma'){
-                prec_inv[[c]] = cal_mat_inv_pracma(prec_mat)
-            }else{
-                prec_inv[[c]] = cal_mat_inv(prec_mat)
-            }
+            prec_inv[[c]] = cal_mat_inv(prec_mat, params)
         }
 
         # the first term of vars$A$mu
@@ -225,7 +219,7 @@ spatial_factorization <- function(params, profile, dist_mat, maxiter = 2000, tra
                 if(r1 <= 0){
                     break
                 }
-                cov_inv = cal_cov_inv_mat(r1, dist_mat, inv_method)
+                cov_inv = cal_cov_inv_mat(r1, dist_mat, params)
                 FE_new = tildeF(r1, c, cov_inv)
                 if(FE_new > FE_old){
                     R$r[c] = r1
@@ -385,8 +379,8 @@ spatial_factorization <- function(params, profile, dist_mat, maxiter = 2000, tra
     iteration = 1
     
     #### initialise FE ####
-    FE_res = list(FEcur= -1e50, FEold= -1e50)
-    trackingvec=rep(10*track,track) # a vector of length track, listing the changes of modules in the last track iterations
+    FE_res = list(FEcur = -1e50, FEold = -1e50)
+    trackingvec = rep(10 * track, track)
 
     # update variables in iterations
     print('Updating variables...')
@@ -453,7 +447,7 @@ spatial_factorization <- function(params, profile, dist_mat, maxiter = 2000, tra
             }
             trackingvec[indexingvar] = sum(abs(PIP - PIP_old))
             if(mean(trackingvec) < pip_thresh){
-                continue=FALSE
+                continue = FALSE
             } 
         }
         PIP_old = PIP
