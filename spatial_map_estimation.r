@@ -1,7 +1,7 @@
 # estimating spatial maps of tissue modules on another tissue section
 
 spatial_map_estimation <- function(params, profile, dist_mat, module_loadings, maxiter = 2000, track=10, 
-                                   debugging = 'iter_count', iter_count = 5, pip_thresh = 1){
+                                   debugging = 'iter_count', iter_count = 1, pip_thresh = 1){
 
     initialise_vars <- function(params, dist_mat){
         list_of_vars <- list()
@@ -219,7 +219,7 @@ spatial_map_estimation <- function(params, profile, dist_mat, module_loadings, m
     iteration = 1
 
     #### initialise FE ####
-    FE_res = list(FEcur = -1e50, FEold = -1e50)
+    FE_res = list(FEcur = -1e40, FEold = -1e50)
     trackingvec = rep(10 * track, track)
 
     # update variables in iterations
@@ -230,20 +230,24 @@ spatial_map_estimation <- function(params, profile, dist_mat, module_loadings, m
         # update A
         print('Updating A')
         vars$A=updateA(params)
+        if(debugging == 'each_update'){FE_res = check_FE_decreasing(FE_res, params)}
 
         # update r
         if(!params$fixed_r){
             print('Updating R')
             vars$R=updateR(params)
+            if(debugging == 'each_update'){FE_res = check_FE_decreasing(FE_res, params)}
         }
 
         # update Delta
         print('Updating Delta')
         vars$Delt=updateDelt(params)
+        if(debugging == 'each_update'){FE_res = check_FE_decreasing(FE_res, params)}
         
         # update Lamda
         print('Updating Lamda')
         vars$Lam=updateLam(params)
+        if(debugging == 'each_update'){FE_res = check_FE_decreasing(FE_res, params)}
 
         # check FE each 10 iterations
         if(debugging == 'iter_count'){
