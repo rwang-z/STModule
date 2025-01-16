@@ -72,17 +72,21 @@ cal_distance_mat = function(locations, dimension = '2D'){
     return(dist_mat)
 }
 
-convert_res_to_matrix = function(res){
+convert_res_to_matrix = function(res, type = 'all'){
     res$A = list(mu = as.matrix(res$A$mu))
     res$R = list(r = as.matrix(res$R$r))
     res$Delt = list(c = as.matrix(res$Delt$c), d = as.matrix(res$Delt$d))
     res$Lam = list(u = as.matrix(res$Lam$u), v = as.matrix(res$Lam$v))
-    res$Beta = list(e = as.matrix(res$Beta$e), f = as.matrix(res$Beta$f))
-    res$Ph = as.matrix(res$Ph)
-    res$Ps = as.matrix(res$Ps)
-    res$Rho = as.matrix(res$Rho)
-    res$X = list(gamma = as.matrix(res$X$gamma), sigma = as.matrix(res$X$sigma), m = as.matrix(res$X$m))
-    res$X$mom1 = as.matrix(res$X$m * res$X$gamma)
+    if(type == 'all'){
+        res$Beta = list(e = as.matrix(res$Beta$e), f = as.matrix(res$Beta$f))
+        res$Ph = as.matrix(res$Ph)
+        res$Ps = as.matrix(res$Ps)
+        res$Rho = as.matrix(res$Rho)
+        res$X = list(gamma = as.matrix(res$X$gamma), sigma = as.matrix(res$X$sigma), m = as.matrix(res$X$m))
+        res$X$mom1 = as.matrix(res$X$m * res$X$gamma)
+    }else if(type == 'estimate'){
+        res$X$mom1 = as.matrix(res$X$mom1)
+    }
     return(res)
 }
 

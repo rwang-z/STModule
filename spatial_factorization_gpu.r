@@ -481,7 +481,7 @@ spatial_factorization_gpu <- function(params, profile, dist_mat, maxiter = 2000,
     vars$last_FE = FE_res$FEcur
 
     # convert to matrices
-    vars = convert_res_to_matrix(vars)
+    vars = convert_res_to_matrix(vars, 'all')
 
     return(vars)
 }

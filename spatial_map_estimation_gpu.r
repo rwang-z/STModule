@@ -6,7 +6,7 @@ library(torch)
 library(GPUmatrix)
 
 spatial_map_estimation_gpu <- function(params, profile, dist_mat, module_loadings, maxiter = 2000, track=10, 
-                                       debugging = 'no', gpumatirx_type = 'torch', pip_thresh = 1){
+                                       debugging = 'iter_count', iter_count = 5, gpumatirx_type = 'torch', pip_thresh = 1){
 
     initialise_vars <- function(params, dist_mat){
         list_of_vars <- list()
@@ -244,24 +244,31 @@ spatial_map_estimation_gpu <- function(params, profile, dist_mat, module_loading
         }
         vars$A$mu = updateA_mu(params)
         vars$A$mom2 = updateA_mom2(params)
-        if(debugging == 'each_update'){FE_res = check_FE_decreasing(FE_res, params)}
+        # if(debugging == 'each_update'){FE_res = check_FE_decreasing(FE_res, params)}
 
         # update r
         if(!params$fixed_r){
             print('Updating R')
             vars$R=updateR(params)
-            if(debugging == 'each_update'){FE_res = check_FE_decreasing(FE_res, params)}
+            # if(debugging == 'each_update'){FE_res = check_FE_decreasing(FE_res, params)}
         }
         
         # update Delta
         print('Updating Delta')
         vars$Delt=updateDelt(params)
-        if(debugging == 'each_update'){FE_res = check_FE_decreasing(FE_res, params)}
+        # if(debugging == 'each_update'){FE_res = check_FE_decreasing(FE_res, params)}
         
         # update Lamda
         print('Updating Lamda')
         vars$Lam=updateLam(params)
-        if(debugging == 'each_update'){FE_res = check_FE_decreasing(FE_res, params)}
+        # if(debugging == 'each_update'){FE_res = check_FE_decreasing(FE_res, params)}
+
+        # check FE each 10 iterations
+        if(debugging == 'iter_count'){
+            if(iteration %% iter_count == 0){
+                FE_res = check_FE_decreasing(FE_res, params)
+            }
+        }
 
         # evaluate whether to stop...
         if(iteration > 1){
@@ -269,13 +276,12 @@ spatial_map_estimation_gpu <- function(params, profile, dist_mat, module_loading
         }
         iteration = iteration + 1
     }
-
     FE_res$FEcur = Free_Energy(params)
     vars$maximumiteration = iteration - 1
     vars$last_FE = FE_res$FEcur
 
     # convert to matrices
-    vars = convert_res_to_matrix(vars)
+    vars = convert_res_to_matrix(vars, 'estimate')
 
     return(vars)
 }
