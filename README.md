@@ -32,9 +32,6 @@ Session info: <a href="https://github.com/rwang-z/STModule/blob/main/sessionInfo
 
 We are working on developing an R package for STModule.
 
-We have also developed a GPU version of STModule for high-resolution data which will be released soon.
-
-STModule GPU version: <a href="https://github.com/rwang-z/STModule/blob/main/STModule_GPU_version.md" title="STModule GPU version">Here</a>
 
 &nbsp;
 
@@ -42,7 +39,9 @@ STModule GPU version: <a href="https://github.com/rwang-z/STModule/blob/main/STM
 
 Demonstration of how to use STModule: <a href="https://github.com/rwang-z/STModule/blob/main/example_analysis.md" title="Example Analysis">Here</a>
 
+We have also developed a GPU version of STModule for high-resolution data.
 
+Demonstration of using the GPU version: <a href="https://github.com/rwang-z/STModule/blob/main/STModule_GPU_version.md" title="STModule GPU version">Here</a>
 
 
 
