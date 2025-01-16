@@ -419,7 +419,10 @@ loc_file = 'data/slide_seq_v2_mob_locations.txt'
 data <- data_preprocessing(count_file, loc_file, high_resolution = TRUE, gene_filtering = 50)
 
 # run STModule
+# CPU version
 res = run_STModule(data, 10, high_resolution = TRUE, max_iter = 100)
+# GPU version
+res = run_STModule(data, 10, high_resolution = TRUE, max_iter = 100, version = 'gpu')
 
 # visualize spatial maps
 plots <- spatial_map_visualization(res, 'log', point_size = 0.3)
@@ -475,7 +478,10 @@ load('results/STModule_res_st_mob.RData')
 
 count_file = 'data/slide_seq_v2_mob_count_matrix.txt'
 loc_file = 'data/slide_seq_v2_mob_locations.txt'
+# CPU version
 spatial_maps <- run_spatial_map_estimation(res, count_file, loc_file, high_resolution = TRUE)
+# GPU version
+spatial_maps <- run_spatial_map_estimation(res, count_file, loc_file, high_resolution = TRUE, version = 'gpu')
 
 plots <- spatial_map_visualization(spatial_maps)
 pdf('plots/spatial_maps_new_mob_data.pdf')
