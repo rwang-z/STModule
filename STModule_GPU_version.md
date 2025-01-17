@@ -68,7 +68,7 @@ install.packages('viridis')
 
 For high-resolution data, e.g., Slide-seqV2 and Stereo-seq, we recommend using the GPU version of STModule. 
 
-To use the GPU version, we only need to set the parameter `version` to `'gpu'`. For example, for the Slide-seqV2 MOB data:
+To use the GPU version, we only need to set the parameter `version` to `'gpu'` for the function `run_STModule()`. For example, for the Slide-seqV2 MOB data:
 
 ```r
 source('STModule.r')
@@ -101,7 +101,7 @@ load('results/STModule_res_st_mob.RData')
 # estimate spatial maps of the tissue modules for the Slide-seqV2 data
 count_file = 'data/slide_seq_v2_mob_count_matrix.txt'
 loc_file = 'data/slide_seq_v2_mob_locations.txt'
-spatial_maps <- run_spatial_map_estimation(res, count_file, loc_file, high_resolution = TRUE, version = 'gpu')
+spatial_maps <- run_spatial_map_estimation(res, count_file, loc_file, high_resolution = TRUE, max_iter = 100, version = 'gpu')
 
 plots <- spatial_map_visualization(spatial_maps, 'log', point_size = 0.3)
 pdf('plots/spatial_maps_new_mob_data.pdf')
