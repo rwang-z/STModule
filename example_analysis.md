@@ -85,7 +85,7 @@ loc_10 18.877 6.984
 
 ## Data pre-processing<a id='data-pre-processing'></a>
 
-Pre-processing and generating input data for STModule using the function `data_preprocessing`:
+Pre-processing and generating input data for STModule using the function `data_preprocessing()`:
 
 ```r
 data_preprocessing(count_file, loc_file, high_resolution = FALSE, gene_mode = 'HVG', top_hvg = 2000, gene_list = c(), 
@@ -135,14 +135,14 @@ data <- data_preprocessing(count_file, loc_file)
 
 ## Run STModule<a id='run-STModule'></a>
 
-Run STModule on the generated data using the function `run_STModule`:
+Run STModule on the generated data using the function `run_STModule()`:
 
 ```r
-run_STModule(data, num_modules, high_resolution = FALSE, max_iter = 2000)
+run_STModule(data, num_modules, high_resolution = FALSE, max_iter = 2000, version = 'cpu')
 ```
 
 **Parameters**:
-- `data`: result of the function `data_preprocessing`, generated data after data preprocessing
+- `data`: result of the function `data_preprocessing()`, generated data after data preprocessing
   
 - `num_modules`: number of tissue modules to identify
   
@@ -151,6 +151,10 @@ run_STModule(data, num_modules, high_resolution = FALSE, max_iter = 2000)
   - `high_resolution = FALSE`: used for data profiled by 'ST', '10x Visium', etc. (default)
 
 - `max_iter`: maximum iteration, default 2000
+
+- `version`: to use CPU or GPU version of STModule
+  - `version = 'cpu'`: used for ST data (default)
+  - `version = 'gpu'`: used for 10x Visium and high-resolution data
 
 &nbsp;
 
@@ -165,14 +169,14 @@ res <- run_STModule(data, 10)
 
 ## Visualize spatial maps of the tissue modules<a id='visualize-spatial-maps'></a>
 
-Plotting spatial maps of the tissue modules using the function `spatial_map_visualization`:
+Plotting spatial maps of the tissue modules using the function `spatial_map_visualization()`:
 
 ```r
 spatial_map_visualization(res, normalization = 'log', point_size = 6)
 ```
 
 **Parameters**:
-- `res`: result of function `run_STModule`
+- `res`: result of function `run_STModule()`
   
 - `normalization`: normalization method of spatial maps
   - `normalization = 'log'`: log-transformation while keeping the direction of activities (default)
@@ -208,7 +212,7 @@ Spatial map of the tissue module representing ductal carcinoma in situ (DCIS):
 
 ### Get associated genes and their activities of the tissue modules
 
-Use the function `get_assocaited_genes` which returns a data frame with three columns ‘gene’, ‘activity’ and ‘module’:
+Use the function `get_assocaited_genes()` which returns a data frame with three columns ‘gene’, ‘activity’ and ‘module’:
 
 ```r
 get_assocaited_genes(res)
@@ -231,7 +235,7 @@ write.table(module_genes, file = 'results/st_bc2_module_associated_genes.txt', s
 
 ### Visualize the activities of associated genes:
 
-Plot the activities of the associated genes of the tissue modules using the function `associated_gene_visualization` which returns a list of plots each representing the spatial map of a tissue module:
+Plot the activities of the associated genes of the tissue modules using the function `associated_gene_visualization()` which returns a list of plots each representing the spatial map of a tissue module:
 
 ```r
 associated_gene_visualization(res, quantile_thresh = 0.75)
@@ -267,7 +271,7 @@ Gene activities of the tissue module representing DCIS illustrated above:
 
 ## Visualize spatial expression of interested genes<a id='visualize-spatial_expression'></a>
 
-We also provide a function `spatial_expression_visualization` to plot the spatial expression of a list of interested genes:
+We also provide a function `spatial_expression_visualization()` to plot the spatial expression of a list of interested genes:
 
 ```r
 spatial_expression_visualization(count_file, loc_file, gene_list, file_sep = '\t', point_size = 6)
@@ -310,10 +314,10 @@ spatial_expression_visualization(count_file, loc_file, c('SPINT2', 'CD74'))
 
 To apply the tissue modules identified from a tissue A to another section B, the same input data of section B is required, including the count matrix and spatial information in the same format as mentioned above. 
 
-Spatial maps of the tissue modules on section B can be estimated using the function `run_spatial_map_estimation`:
+Spatial maps of the tissue modules on section B can be estimated using the function `run_spatial_map_estimation()`:
 
 ```r
-run_spatial_map_estimation(res, count_file, loc_file, high_resolution = FALSE, file_sep = '\t', cell_thresh = 100)
+run_spatial_map_estimation(res, count_file, loc_file, high_resolution = FALSE, file_sep = '\t', cell_thresh = 100, max_iter = 2000, version = 'cpu')
 ```
 
 **Parameters**:
@@ -333,7 +337,13 @@ run_spatial_map_estimation(res, count_file, loc_file, high_resolution = FALSE, f
 - `cell_thresh`: parameter to filter cells for high-resolution data, removing cells with less than cell_thresh counts (default 100). 
   - Used for tissue section B when `high_resolution = TRUE`
 
-The function will first load and pre-process the data of section B and estimate the spatial maps of the tissue modules. The spatial maps can be visualized using the function `spatial_map_visualization`.
+- `max_iter`: maximum iteration, default 2000
+
+- `version`: to use CPU or GPU version of STModule
+  - `version = 'cpu'`: used for ST data (default)
+  - `version = 'gpu'`: used for 10x Visium and high-resolution data
+
+The function will first load and pre-process the data of section B and estimate the spatial maps of the tissue modules. The spatial maps can be visualized using the function `spatial_map_visualization()`.
 
 &nbsp;
 
@@ -372,7 +382,10 @@ loc_file = 'data/visium_dlpfc_151676_locations.txt'
 data <- data_preprocessing(count_file, loc_file)
 
 # run STModule
+# CPU version
 res = run_STModule(data, 10)
+# GPU version
+res = run_STModule(data, 10, version = 'gpu')
 
 # visualize spatial maps
 plots <- spatial_map_visualization(res, 'log', point_size = 2)
