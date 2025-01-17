@@ -59,7 +59,7 @@ run_STModule = function(data, num_modules, high_resolution = FALSE,  max_iter = 
     return(res)
 }
 
-run_spatial_map_estimation = function(res, count_file, loc_file, high_resolution = FALSE,  file_sep = '\t', cell_thresh = 100, version = 'cpu'){
+run_spatial_map_estimation = function(res, count_file, loc_file, high_resolution = FALSE,  file_sep = '\t', cell_thresh = 100, max_iter = 2000, version = 'cpu'){
     # estimate spatial maps of tissue module for a new tissue section
 
     ###### parameters ######
@@ -72,6 +72,9 @@ run_spatial_map_estimation = function(res, count_file, loc_file, high_resolution
     # file_sep: the field separator character of the files for the new data, default '\t'
     # cell_thresh: parameter to filter cells for high-resolution data, removing cells with less than cell_thresh counts (default 100). 
     #   - Used for the new data.
+    # version: to use CPU or GPU version of STModule
+    #   - 'cpu': for ST data
+    #   - 'gpu': for 10x Visium and high-resolution data
 
     # genes in tissue modules
     module_genes = res$gene_list
@@ -112,13 +115,13 @@ run_spatial_map_estimation = function(res, count_file, loc_file, high_resolution
     fixed_r = ifelse(num_locs > 1000, TRUE, FALSE)
     r_const = ifelse(high_resolution, 0.01, 1)
     params = list(N = num_locs, L = num_genes, C = num_modules, r_const = r_const, fixed_r = fixed_r, 
-                  decrease_stop = FALSE, version = version, high_resolution = high_resolution,
+                  decrease_stop = FALSE, version = version, high_resolution = high_resolution, max_iter = max_iter,
                   a = 1e-6, b = 1e6, c = 1e-6, d = 1e6, e = 1e-6, f = 1e6, g = 0, h = 0, u = 1e-6, v = 1e6, r = 1, z = 1)
     if(version == 'cpu'){
-        spatial_map_res <- spatial_map_estimation(params, exp_mat, dist_mat, module_loadings)
+        spatial_map_res <- spatial_map_estimation(params, exp_mat, dist_mat, module_loadings, max_iter)
     }else if(version == 'gpu'){
         source('spatial_map_estimation_gpu.r')
-        spatial_map_res <- spatial_map_estimation_gpu(params, exp_mat, dist_mat, module_loadings)
+        spatial_map_res <- spatial_map_estimation_gpu(params, exp_mat, dist_mat, module_loadings, max_iter)
     }
     
     print("Estimation finished!")
