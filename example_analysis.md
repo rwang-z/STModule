@@ -496,7 +496,7 @@ spatial_maps <- run_spatial_map_estimation(res, count_file, loc_file, high_resol
 # GPU version
 spatial_maps <- run_spatial_map_estimation(res, count_file, loc_file, high_resolution = TRUE, max_iter = 100, version = 'gpu')
 
-plots <- spatial_map_visualization(spatial_maps)
+plots <- spatial_map_visualization(spatial_maps, 'log', point_size = 0.3)
 pdf('plots/spatial_maps_new_mob_data.pdf')
 for(p in plots){
     print(p)
