@@ -50,7 +50,7 @@ install.packages("your_path_to_the_file/GPUmatrix_1.0.2.tar.gz", repos = NULL, t
 &nbsp;
 
 
-## Installation of other required packages
+## Installation of other dependencies
 
 ```
 conda install conda-forge::r-seurat
