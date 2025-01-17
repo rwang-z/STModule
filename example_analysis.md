@@ -250,7 +250,7 @@ Example for the breast cancer data:
 
 ```r
 plots <- associated_gene_visualization(res)
-pdf('plots/st_pdac_a_st1_associated_gene_activity.pdf')
+pdf('plots/st_bc2_associated_gene_activity.pdf')
 for(p in plots){
     print(p)
 }
