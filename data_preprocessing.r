@@ -54,7 +54,7 @@ data_preprocessing = function(count_file, loc_file, high_resolution = FALSE, gen
     dataobj <- FindVariableFeatures(dataobj, selection.method = 'vst', nfeatures = top_hvg)
     hvgs <- VariableFeatures(dataobj)
     # transformed_mat = GetAssayData(object = dataobj, slot = 'data')  # Seurat v4
-    transformed_mat = LayerData(dataobj, assay = "RNA", layer = "data")
+    transformed_mat = dataobj[["RNA"]]$data     # LayerData(dataobj, assay = "RNA", layer = "data")
     transformed_mat = t(as.matrix(transformed_mat))
     if(gene_mode == 'HVG'){
         selected_genes = hvgs
