@@ -30,7 +30,7 @@ Linux
 
 Session info: <a href="https://github.com/rwang-z/STModule/blob/main/sessionInfo.md" title="Session Info">Here</a>
 
-We are working on developing an R package for STModule.
+We are working on developing an R package for STModule (<a href="https://github.com/rwang-z/STModule_package">Here</a>).
 
 
 &nbsp;
