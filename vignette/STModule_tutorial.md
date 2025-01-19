@@ -3,7 +3,7 @@
 &nbsp;
 
 ## Outline
-[Souce STModule](#source-STModule)
+[Load STModule](#load-STModule)
 
 [Data requirement](#data-requirement)
 
@@ -27,7 +27,7 @@
 
 &nbsp;
 
-## Load STModule<a id='source-STModule'></a>
+## Load STModule<a id='load-STModule'></a>
 
 ```r
 > library('STModule')
