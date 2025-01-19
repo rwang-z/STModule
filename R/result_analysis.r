@@ -137,7 +137,7 @@ spatial_expression_visualization = function(count_file, loc_file, gene_list, fil
             gene_exp = count_mat[, gene]
             if(sum(gene_exp) > 0){
                 print(paste0('Plotting for gene ', gene))
-                plot_file = paste0('plots/spatial_expression_', gene, '.pdf')
+                plot_file = paste0('spatial_expression_', gene, '.pdf')
                 pdf(plot_file)
                 pattern_df = locations
                 pattern_df$expression = log2(gene_exp + 1)
