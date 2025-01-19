@@ -1,5 +1,18 @@
 # STModule tutorial
 
+In this tutorial, we first demonstrate the step-by-step usage of STModule with a breast cancer dataset profiled by ST *(<a href="https://www.science.org/doi/10.1126/science.aaf2403">Ståhl et al., 2016</a>)*. 
+
+Then we provide three additional examples of analysis:
+
+- human dorsolateral prefrontal cortex data profiled by 10x Visium *(<a href="https://www.nature.com/articles/s41593-020-00787-0">Maynard et al., 2021</a>)*;
+
+- mouse olfactory bulb data profiled by Slide-seqV2 *(<a href="https://www.nature.com/articles/s41587-020-0739-1">Stickels et al., 2020</a>)*;
+
+- applying the tissue modules identified from ST MOB data *(<a href="https://www.science.org/doi/10.1126/science.aaf2403">Ståhl et al., 2016</a>)* to other data *(e.g., Slide-seqV2 MOB)*.
+
+
+All data used in this tutorial are available <a href="https://drive.google.com/drive/folders/15jKtTqfeDMtPaXJgDYeg55aiD-HcvtQs?usp=sharing">here</a>.
+
 &nbsp;
 
 ## Outline
@@ -33,20 +46,17 @@
 > library('STModule')
 ```
 
-
-**All data used in this tutorial are available <a href="https://drive.google.com/drive/folders/15jKtTqfeDMtPaXJgDYeg55aiD-HcvtQs?usp=sharing">here</a>.**
-
 &nbsp;
 
-## Data requirement<a id='data-requirement'></a>
+## Data requirements<a id='data-requirement'></a>
 
 STModule requires the following input data of spatially resolved transcriptomics:
 
-**1. count matrix: profiled gene expression at different sptos/cells**
+**1. Count matrix: profiled gene expression at different sptos/cells**
 
-- rows: id of spots/cells
+- rownames: id of spots/cells
 
-- columns: gene names
+- colnames: gene names
 
 ```r
           GAPDH USP4 MAPKAPK2 CPEB1 LANCL2
@@ -63,11 +73,11 @@ loc_10     4    1        0     0      0
 ```
 
 
-**2. spatial information: spatial coordinates of the spots/cells**
+**2. Spatial information: spatial coordinates of the spots/cells**
 
-- rows: id of spots/cells (same ids with the count matrix)
+- rownames: id of spots/cells (same ids with the count matrix)
 
-- columns: coordinates of the spots/cells, including two columns ‘x’ and ‘y’
+- colnames: coordinates of the spots/cells, including two columns `x` and `y`
 
 ```r
           x     y
@@ -84,6 +94,9 @@ loc_10 18.877 6.984
 ```
 
 &nbsp;
+
+For a demonstration of STModule, in the first part of the tutorial, we use breast cancer Layer2 data profiled by ST (Ståhl et al., Visualization and analysis of gene expression in tissue sections by spatial transcriptomics, Science 2016) available at <a href="https://drive.google.com/drive/folders/15jKtTqfeDMtPaXJgDYeg55aiD-HcvtQs?usp=sharing">Google Drive</a>.
+
 &nbsp;
 
 ## Data pre-processing<a id='data-pre-processing'></a>
@@ -101,18 +114,18 @@ data_preprocessing(count_file, loc_file, high_resolution = FALSE, gene_mode = 'H
 
 - `loc_file`: path and file name of the spatial information
 
-- `high_resolution`: to indicate spatial resolution of the data
+- `high_resolution`: a boolean value to indicate spatial resolution of the data.
   - `high_resolution = TRUE`: used for data profiled by 'Slide-seq', 'Slide-seqV2', 'Stereo-seq', etc.
   - `high_resolution = FALSE`: used for data profiled by 'ST', '10x Visium', etc. (default)
   
-- `gene_mode`: how to select genes for the analysis
+- `gene_mode`: the way to select genes for the analysis. 
   - `gene_mode = 'HVG'`: to use top highly variable genes selected by Seurat (default)
   - `gene_mode = 'selected'`: to use user-selected genes included in the filtered data, provided by the `gene_list` parameter
   - `gene_mode = 'combined'`: to use the combination of top HVGs and user-selected genes
 
 - `top_hvg`: the number of top HVGs to use in the analysis, default 2000
 
-- `gene_list`: a vector of genes that the user want to use in the analysis, default: c()
+- `gene_list`: a vector of genes provided by the user to use in the analysis, default: c()
 
 - `file_sep`: the field separator character, default '\t'
   
@@ -125,7 +138,21 @@ data_preprocessing(count_file, loc_file, high_resolution = FALSE, gene_mode = 'H
 
 &nbsp;
 
-Example for breast cancer layer 2 profiled by Spatial Transcriptomics:
+- For data profiled by ST and 10x Visium, we recommend using the default setting:
+
+```r
+data <- data_preprocessing(count_file, loc_file)
+```
+
+- For high-resolution data profiled by Slide-seq, Slide-seqV2, Stereo-seq, etc., we recommend using the following setting to exclude genes and cells with too sparse expression:
+
+```r
+data <- data_preprocessing(count_file, loc_file, high_resolution = TRUE, gene_filtering = 50, cell_thresh = 100)
+```
+
+&nbsp;
+
+Example for breast cancer layer 2 profiled by ST (available at <a href="https://drive.google.com/drive/folders/15jKtTqfeDMtPaXJgDYeg55aiD-HcvtQs?usp=sharing">Google Drive</a>):
 
 ```r
 count_file = 'data/st_bc2_count_matrix.txt'
