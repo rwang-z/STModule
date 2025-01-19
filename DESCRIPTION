@@ -1,0 +1,13 @@
+Package: STModule
+Title: STModule: identifying tissue modules to uncover spatial components and characteristics of transcriptomic landscapes
+Version: 1.1.1
+Authors@R: 
+    person("Ran", "Wang", , "ranwang@cuhk.edu.hk", role = c("aut", "cre"))
+Description: STModule is a tool to identify expression components from spatial transcriptomics data that reveal biological signals and characteristics of tissue sections.
+License: GPL
+Encoding: UTF-8
+Depends: R (>= 4.4.1)
+Imports: GPUmatrix, ggplot2, ggrepel, viridis
+Suggests: Seurat, torch
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
