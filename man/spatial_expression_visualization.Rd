@@ -29,7 +29,7 @@ spatial_expression_visualization(
 }}
 }
 \value{
-pdf files, each for the spatial expression of a query gene
+pdf files in the plots folder, each for the spatial expression of a query gene
 }
 \description{
 Plot spatial expression of interested genes
