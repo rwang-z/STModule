@@ -60,3 +60,5 @@ conda install conda-forge::r-devtools
 library(devtools)
 devtools::install_github('rwang-z/STModule')
 ```
+
+Please input your GitHub token using `gitcreds::gitcreds_set()` if a GitHub API rate limit error occurs.
