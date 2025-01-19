@@ -120,7 +120,7 @@ associated_gene_visualization = function(res, quantile_thresh = 0.75){
 #' - Slide-seqV2 and Stereo-seq data: point_size = 0.3
 #' @import ggplot2
 #' @import viridis
-#' @return pdf files in the plots folder, each for the spatial expression of a query gene
+#' @return pdf files, each for the spatial expression of a query gene
 #' @export spatial_expression_visualization
 
 spatial_expression_visualization = function(count_file, loc_file, gene_list, file_sep = '\t', point_size = 6){

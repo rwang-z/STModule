@@ -13,7 +13,7 @@
 #' - 'selected': to use user-selected genes included in the filtered data, provided by the 'gene_list' parameter.
 #' - 'combined': to use the combination of top HVGs and user-selected genes.
 #' @param top_hvg the number of top HVGs to use in the analysis, default 2000.
-#' @param gene_list a vector of genes that the user want to use in the analysis.
+#' @param gene_list a vector of genes provided by the user to use in the analysis.
 #' @param file_sep the field separator character.
 #' @param gene_filtering parameter to filter the genes, removing genes expressed in less than gene_filtering locations/cells.
 #' - when 'high_resolution' is FALSE: gene_filtering indicates the threshold of percentage of locations.
