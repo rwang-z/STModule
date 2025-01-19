@@ -1,5 +1,7 @@
 # STModule
 
+**We are modifying this repository for STModule R package. During this period, please find the previous source code version <a href="https://github.com/rwang-z/STModule_source/tree/main">Here</a>.**
+
 &nbsp;
 
 ## Introduction
