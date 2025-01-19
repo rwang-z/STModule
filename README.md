@@ -1,7 +1,5 @@
 # STModule
 
-**We are modifying this repository for STModule R package. During this period, please find the previous source code version <a href="https://github.com/rwang-z/STModule_source/tree/main">Here</a>.**
-
 &nbsp;
 
 ## Introduction
@@ -26,13 +24,15 @@ Linux
 
 ### Software dependencies
 
-**R >= 4.0**
+**R >= 4.4.1**
 
-**R libraries**: Seurat v5, ggplot2, ggrepel, viridis
+**R libraries**: Seurat v5, ggplot2, ggrepel, viridis, torch, GPUmatrix
 
 Session info: <a href="https://github.com/rwang-z/STModule/blob/main/vignette/sessionInfo.md" title="Session Info">Here</a>
 
-### Installation
+&nbsp;
+
+## Installation
 
 <a href="https://github.com/rwang-z/STModule/blob/main/vignette/installation.md">Installation of STModule</a>
 
