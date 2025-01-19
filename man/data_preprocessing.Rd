@@ -41,7 +41,7 @@ data_preprocessing(
 
 \item{top_hvg}{the number of top HVGs to use in the analysis, default 2000.}
 
-\item{gene_list}{a vector of genes that the user want to use in the analysis.}
+\item{gene_list}{a vector of genes provided by the user to use in the analysis.}
 
 \item{file_sep}{the field separator character.}
 
