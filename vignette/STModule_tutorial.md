@@ -376,6 +376,8 @@ Spatial map of the tissue module representing DCIS for layer 1:
 
 ## Example analysis: human dorsolateral prefrontal cortex profiled by 10x Visium<a id='example-dlpfc'></a>
 
+For 10x Visium data, we recommend using the GPU version of STModule.
+
 ```r
 source('STModule.r')
 
@@ -384,10 +386,7 @@ count_file = 'data/visium_dlpfc_151676_count_matrix.txt'
 loc_file = 'data/visium_dlpfc_151676_locations.txt'
 data <- data_preprocessing(count_file, loc_file)
 
-# run STModule
-# CPU version
-res = run_STModule(data, 10)
-# GPU version
+# run STModule, using the GPU version
 res = run_STModule(data, 10, version = 'gpu')
 
 # visualize spatial maps
@@ -426,6 +425,8 @@ Example of a spatial map:
 
 ## Example analysis: mouse olfactory bulb profiled by Slide-seqV2<a id='example-mob'></a>
 
+For Slide-seqV2 data, we recommend using the GPU version of STModule.
+
 ```r
 source('STModule.r')
 
@@ -434,10 +435,7 @@ count_file = 'data/slide_seq_v2_mob_count_matrix.txt'
 loc_file = 'data/slide_seq_v2_mob_locations.txt'
 data <- data_preprocessing(count_file, loc_file, high_resolution = TRUE, gene_filtering = 50)
 
-# run STModule
-# CPU version
-res = run_STModule(data, 10, high_resolution = TRUE, max_iter = 100)
-# GPU version
+# run STModule, using the GPU version
 res = run_STModule(data, 10, high_resolution = TRUE, max_iter = 100, version = 'gpu')
 
 # visualize spatial maps
@@ -472,7 +470,7 @@ You can apply the tissue modules to other MOB datasets (same data format require
 # estimate spatial maps on the new data
 count_file = 'path to the count matrix of your MOB data'
 loc_file = 'path to the spatial information of your MOB data'
-spatial_maps <- run_spatial_map_estimation(res, count_file, loc_file, high_resolution, file_sep, cell_thresh)
+spatial_maps <- run_spatial_map_estimation(res, count_file, loc_file, high_resolution, file_sep, cell_thresh, max_iter, version)
 
 # plot the spatial maps
 plots <- spatial_map_visualization(spatial_maps)
@@ -485,7 +483,7 @@ dev.off()
 
 &nbsp;
 
-Example of applying the tissue modules to the Slide-seqV2 MOB data:
+Example of applying the tissue modules to the Slide-seqV2 MOB data (using the GPU version of STModule):
 
 ```r
 source('STModule.r')
@@ -494,9 +492,6 @@ load('results/STModule_res_st_mob.RData')
 
 count_file = 'data/slide_seq_v2_mob_count_matrix.txt'
 loc_file = 'data/slide_seq_v2_mob_locations.txt'
-# CPU version
-spatial_maps <- run_spatial_map_estimation(res, count_file, loc_file, high_resolution = TRUE, max_iter = 100)
-# GPU version
 spatial_maps <- run_spatial_map_estimation(res, count_file, loc_file, high_resolution = TRUE, max_iter = 100, version = 'gpu')
 
 plots <- spatial_map_visualization(spatial_maps, 'log', point_size = 0.3)
