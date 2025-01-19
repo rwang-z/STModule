@@ -30,20 +30,17 @@ Linux
 
 **R libraries**: Seurat v5, ggplot2, ggrepel, viridis
 
-Session info: <a href="https://github.com/rwang-z/STModule/blob/main/sessionInfo.md" title="Session Info">Here</a>
+Session info: <a href="https://github.com/rwang-z/STModule/blob/main/vignette/sessionInfo.md" title="Session Info">Here</a>
 
-We are working on developing an R package for STModule (<a href="https://github.com/rwang-z/STModule_package">Here</a>).
+### Installation
 
+<a href="https://github.com/rwang-z/STModule/blob/main/vignette/installation.md">Installation of STModule</a>
 
 &nbsp;
 
 ## Example analysis
 
-Demonstration of how to use STModule: <a href="https://github.com/rwang-z/STModule/blob/main/example_analysis.md" title="Example Analysis">Here</a>
-
-We have also developed a GPU version of STModule for high-resolution data.
-
-Demonstration of using the GPU version: <a href="https://github.com/rwang-z/STModule/blob/main/STModule_GPU_version.md" title="STModule GPU version">Here</a>
+Demonstration of how to use STModule: <a href="https://github.com/rwang-z/STModule/blob/main/vignette/STModule_tutorial.md">STModule tutorial</a>
 
 
 
