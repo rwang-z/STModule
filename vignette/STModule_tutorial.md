@@ -1,6 +1,16 @@
 # STModule tutorial
 
-In this tutorial, we first demonstrate the step-by-step usage of STModule with a breast cancer dataset profiled by ST *(<a href="https://www.science.org/doi/10.1126/science.aaf2403">Ståhl et al., 2016</a>)*. 
+All data used in this tutorial is available <a href="https://drive.google.com/drive/folders/15jKtTqfeDMtPaXJgDYeg55aiD-HcvtQs?usp=sharing">here</a>.
+
+In this tutorial, we first demonstrate the step-by-step usage of STModule with a breast cancer dataset profiled by ST *(<a href="https://www.science.org/doi/10.1126/science.aaf2403">Ståhl et al., 2016</a>)*, using the following files:
+
+- 'st_bc2_count_matrix.txt'
+
+- 'st_bc2_locations.txt'
+
+- 'st_bc1_count_matrix.txt'
+
+- 'st_bc1_locations.txt'
 
 Then we provide three additional examples of analysis:
 
@@ -10,8 +20,6 @@ Then we provide three additional examples of analysis:
 
 - applying the tissue modules identified from ST MOB data *(<a href="https://www.science.org/doi/10.1126/science.aaf2403">Ståhl et al., 2016</a>)* to other data *(e.g., Slide-seqV2 MOB)*.
 
-
-All data used in this tutorial are available <a href="https://drive.google.com/drive/folders/15jKtTqfeDMtPaXJgDYeg55aiD-HcvtQs?usp=sharing">here</a>.
 
 &nbsp;
 
@@ -106,7 +114,7 @@ data_preprocessing(count_file, loc_file, high_resolution = FALSE, gene_mode = 'H
 ```
 
 
-**Parameters**:
+**Parameters**
 - `count_file`: path and file name of the count matrix
 
 - `loc_file`: path and file name of the spatial information
@@ -133,27 +141,34 @@ data_preprocessing(count_file, loc_file, high_resolution = FALSE, gene_mode = 'H
 - `cell_thresh`: parameter to filter cells for high-resolution data, removing cells with less than cell_thresh counts (default 100)
   - used when `high_resolution = TRUE`
 
-&nbsp;
 
-- For data profiled by ST and 10x Visium, we recommend using the default setting:
+**Output**
+
+- A list containing the processed expression matrix, distance matrix and location information
+
+
+**Usage**
+
+- For data profiled by **ST** and **10x Visium**, we recommend using the default setting:
 
 ```r
 data <- data_preprocessing(count_file, loc_file)
 ```
 
-- For high-resolution data profiled by Slide-seq, Slide-seqV2, Stereo-seq, etc., we recommend using the following setting to exclude genes and cells with too sparse expression:
+- For **high-resolution data** profiled by Slide-seq, Slide-seqV2, Stereo-seq, etc., we recommend using the following setting to exclude genes and cells with too sparse expression:
 
 ```r
 data <- data_preprocessing(count_file, loc_file, high_resolution = TRUE, gene_filtering = 50, cell_thresh = 100)
 ```
 
-&nbsp;
+
+**Example**
 
 Example for breast cancer layer 2 profiled by ST:
 
 ```r
-count_file = 'data/st_bc2_count_matrix.txt'
-loc_file = 'data/st_bc2_locations.txt'
+count_file = 'st_bc2_count_matrix.txt'
+loc_file = 'st_bc2_locations.txt'
 data <- data_preprocessing(count_file, loc_file)
 ```
 
@@ -168,7 +183,7 @@ Run STModule on the generated data using the function `run_STModule()`:
 run_STModule(data, num_modules, high_resolution = FALSE, max_iter = 2000, version = 'cpu')
 ```
 
-**Parameters**:
+**Parameters**
 - `data`: result of the function `data_preprocessing()`, generated data after data preprocessing
   
 - `num_modules`: number of tissue modules to identify.
@@ -187,7 +202,31 @@ run_STModule(data, num_modules, high_resolution = FALSE, max_iter = 2000, versio
   - `version = 'cpu'`: used for ST data (default)
   - `version = 'gpu'`: used for 10x Visium and high-resolution data
 
-&nbsp;
+**Output**
+
+- A list containing estimated results for variables in the model, as well as parameters, gene list, location list and location information.
+
+**Usage**
+
+- For data profiled by **ST**, we recommend using the default setting:
+
+```r
+res <- run_STModule(data, 10)
+```
+
+- For data profiled by **10x Visium**, we recommend using the GPU version:
+
+```r
+res = run_STModule(data, 10, version = 'gpu')
+```
+
+- For **high-resolution data** profiled Slide-seq, Slide-seqV2, Stereo-seq, etc., we recommend using the following setting:
+
+```r
+res = run_STModule(data, 10, high_resolution = TRUE, max_iter = 100, version = 'gpu')
+```
+
+**Example**
 
 Example for the breast cancer data:
 
@@ -206,25 +245,49 @@ Plotting spatial maps of the tissue modules using the function `spatial_map_visu
 spatial_map_visualization(res, normalization = 'log', point_size = 6)
 ```
 
-**Parameters**:
-- `res`: result of function `run_STModule()`
+**Parameters**
+- `res`: the result of function `run_STModule()`
   
-- `normalization`: normalization method of spatial maps
+- `normalization`: normalization method for spatial maps
   - `normalization = 'log'`: log-transformation while keeping the direction of activities (default)
   - `normalization = 'scale'`: scale the spatial map of each module to a vector with zero-mean and unit-variance
     
-- `point_size`: size of points in the plots. Recommended point size for some SRT technologies:
+- `point_size`: size of points in the plots. Recommended point size for data profiled by different SRT technologies:
   - ST data: `point_size = 6`
   - 10x Visium data: `point_size = 2`
   - Slide-seqV2 and Stereo-seq data: `point_size = 0.3`
 
-&nbsp;
+**Output**
+
+- A list of plots each for a tissue module
+
+**Usage**
+
+- For data profiled by **ST**, we recommend using the following setting:
+
+```r
+plots <- spatial_map_visualization(res, 'log', point_size = 6)
+```
+
+- For data profiled by **10x Visium**, we recommend using the following setting:
+
+```r
+plots <- spatial_map_visualization(res, 'log', point_size = 2)
+```
+
+- For **high-resolution data** profiled Slide-seq, Slide-seqV2, Stereo-seq, etc., we recommend using the following setting:
+
+```r
+plots <- spatial_map_visualization(res, 'log', point_size = 0.3)
+```
+
+**Example**
 
 Example for the breast cancer data:
 
 ```r
 plots <- spatial_map_visualization(res, 'log', point_size = 6)
-pdf('plots/st_bc2_spatial_maps.pdf')
+pdf('st_bc2_spatial_maps.pdf')
 for(p in plots){
     print(p)
 }
@@ -239,60 +302,74 @@ Spatial map of the tissue module representing ductal carcinoma in situ (DCIS):
 &nbsp;
 &nbsp;
 
+
 ## Associated genes of the tissue modules<a id='associated_genes'></a>
 
 ### Get associated genes and their activities of the tissue modules
 
-Use the function `get_assocaited_genes()` which returns a data frame with three columns ‘gene’, ‘activity’ and ‘module’:
+Use the function `get_assocaited_genes()` to get the associated genes of the tissue modules:
 
 ```r
 get_assocaited_genes(res)
 ```
 
-**Parameter**:
-- `res`: the result of `run_STModule` running on a tissue section
+**Parameter**
+- `res`: the result of function `run_STModule()`
 
+**Output**
 
-&nbsp;
+- A data frame with three columns:
+
+  - `gene`: gene name
+
+  - `module`: the index of the tissue module
+
+  - `activity`: loading of the gene in the tissue module
+
+**Example**
 
 Example for the breast cancer data:
 
 ```r
 module_genes <- get_assocaited_genes(res)
-write.table(module_genes, file = 'results/st_bc2_module_associated_genes.txt', sep = '\t', row.names = FALSE)
+write.table(module_genes, file = 'st_bc2_module_associated_genes.txt', sep = '\t', row.names = FALSE)
 ```
 
 &nbsp;
 
 ### Visualize the activities of associated genes:
 
-Plot the activities of the associated genes of the tissue modules using the function `associated_gene_visualization()` which returns a list of plots each representing the spatial map of a tissue module:
+Plot the activities of the associated genes of the tissue modules using the function `associated_gene_visualization()`:
 
 ```r
 associated_gene_visualization(res, quantile_thresh = 0.75)
 ```
 
-**Parameters**:
+**Parameters**
 
 - `res`: the result of `run_STModule` running on a tissue section
   
 - `quantile_thresh`: names will be demonstrated for genes with activity higher than the quantile threshold
 
 
-&nbsp;
+**Output**
+
+- A list of plots each demonstrating the associated genes of a tissue module
+
+**Example**
 
 Example for the breast cancer data:
 
 ```r
 plots <- associated_gene_visualization(res)
-pdf('plots/st_bc2_associated_gene_activity.pdf')
+pdf('st_bc2_associated_gene_activity.pdf')
 for(p in plots){
     print(p)
 }
 dev.off()
 ```
 
-Gene activities of the tissue module representing DCIS illustrated above:
+Gene activities of the tissue module representing DCIS:
 
 <img width="500" alt="example_gene_activity" src="https://github.com/rwang-z/STModule/assets/57746198/fad94f9e-8b74-4f03-b43d-d14efb0c2dd8">
 
@@ -308,7 +385,7 @@ We also provide a function `spatial_expression_visualization()` to plot the spat
 spatial_expression_visualization(count_file, loc_file, gene_list, file_sep = '\t', point_size = 6)
 ```
 
-**Parameters**:
+**Parameters**
 
 - `count_file`: path and file name of the count matrix
 
@@ -323,16 +400,41 @@ spatial_expression_visualization(count_file, loc_file, gene_list, file_sep = '\t
   - 10x Visium data: `point_size = 2`
   - Slide-seqV2 and Stereo-seq data: `point_size = 0.3`
 
+**Output**
 
-&nbsp;
+- PDF files, each demonstrating the spatial expression of a query gene
+
+**Usage**
+
+- For data profiled by **ST**, we recommend using the following setting:
+
+```r
+spatial_expression_visualization(count_file, loc_file, gene_list, point_size = 6)
+```
+
+- For data profiled by **10x Visium**, we recommend using the following setting:
+
+```r
+spatial_expression_visualization(count_file, loc_file, , gene_list, point_size = 2)
+```
+
+- For **high-resolution data** profiled Slide-seq, Slide-seqV2, Stereo-seq, etc., we recommend using the following setting:
+
+```r
+spatial_expression_visualization(count_file, loc_file, , gene_list, point_size = 0.3)
+```
+
+**Example**
 
 Example for the breast cancer data:
 
 ```r
-count_file = 'data/st_bc2_count_matrix.txt'
-loc_file = 'data/st_bc2_locations.txt'
-spatial_expression_visualization(count_file, loc_file, c('SPINT2', 'CD74'))
+count_file = 'st_bc2_count_matrix.txt'
+loc_file = 'st_bc2_locations.txt'
+spatial_expression_visualization(count_file, loc_file, c('SPINT2', 'CD74'), point_size = 6)
 ```
+
+Spatial expression maps of SPINT2 and CD74 in the breast cancer data:
 
 <img width="300" alt="example_spatial_expression" src="https://github.com/rwang-z/STModule/assets/57746198/464e3945-11dc-441f-9ef4-6599b43dfc3b">
 <img width="300" alt="example_spatial_expression_cd74" src="https://github.com/rwang-z/STModule/assets/57746198/83c0922c-62fc-45a9-817d-99271b1f5edc">
@@ -344,50 +446,76 @@ spatial_expression_visualization(count_file, loc_file, c('SPINT2', 'CD74'))
 
 To apply the tissue modules identified from a tissue A to another section B, the same input data of section B is required, including the count matrix and spatial information in the same format as mentioned above. 
 
-Spatial maps of the tissue modules on section B can be estimated using the function `run_spatial_map_estimation()`:
+Spatial maps of the tissue modules for section B can be estimated using the function `run_spatial_map_estimation()`:
 
 ```r
 run_spatial_map_estimation(res, count_file, loc_file, high_resolution = FALSE, file_sep = '\t', cell_thresh = 100, max_iter = 2000, version = 'cpu')
 ```
 
-**Parameters**:
+**Parameters**
 
-- `res`: the result of `run_STModule` from tissue section A
+- `res`: the result of function `run_STModule()` from tissue section A
 
 - `count_file`: path and file name of the count matrix of tissue section B
   
 - `loc_file`: path and file name of the spatial information of tissue section B
   
-- `high_resolution`: to indicate spatial resolution of the data
-  - `high_resolution = TRUE`: used for data profiled by 'Slide-seq', 'Slide-seqV2', 'Stereo-seq', etc.
-  - `high_resolution = FALSE`: used for data profiled by 'ST', '10x Visium', etc. (default)
+- `high_resolution`: a boolean value to indicate spatial resolution of the data
+  - `high_resolution = TRUE`: used for data profiled by Slide-seq, Slide-seqV2, Stereo-seq, etc.
+  - `high_resolution = FALSE`: used for data profiled by ST, 10x Visium, etc. (default)
 
 - `file_sep`: the field separator character of the files for tissue section B, default '\t'
   
 - `cell_thresh`: parameter to filter cells for high-resolution data, removing cells with less than cell_thresh counts (default 100). 
   - Used for tissue section B when `high_resolution = TRUE`
 
-- `max_iter`: maximum iteration, default 2000
+- `max_iter`: number of maximum iteration, default 2000
+
+  For this parameter, we recommend using the default setting for data profiled by ST and 10x Visium, and setting `max_iter = 100` for high-resolution data for efficiency.
 
 - `version`: to use CPU or GPU version of STModule
   - `version = 'cpu'`: used for ST data (default)
   - `version = 'gpu'`: used for 10x Visium and high-resolution data
 
-The function will first load and pre-process the data of section B and estimate the spatial maps of the tissue modules. The spatial maps can be visualized using the function `spatial_map_visualization()`.
+The function will first load and pre-process the data of section B and then estimate the spatial maps of the tissue modules. The spatial maps can also be visualized using the function `spatial_map_visualization()`.
 
-&nbsp;
+**Output**
 
-Example for the breast cancer data, estimating the spatial maps of the tissue modules on another section called ‘layer 1’:
+- A list containing estimated results for variables in the model, as well as parameters, gene list, location list and location information
+
+**Usage**
+
+- For data profiled by **ST**, we recommend using the default setting:
+
+```r
+spatial_maps <- run_spatial_map_estimation(res, count_file , loc_file)
+```
+
+- For data profiled by **10x Visium**, we recommend using the GPU version:
+
+```r
+spatial_maps <- run_spatial_map_estimation(res, count_file , loc_file, version = 'gpu')
+```
+
+- For **high-resolution data** profiled Slide-seq, Slide-seqV2, Stereo-seq, etc., we recommend using the following setting:
+
+```r
+spatial_maps <- run_spatial_map_estimation(res, count_file, loc_file, high_resolution = TRUE, max_iter = 100, version = 'gpu')
+```
+
+**Example**
+
+Example for the breast cancer data, estimating the spatial maps of the tissue modules on another section ‘layer 1’:
 
 ```r
 # estimate the spatial maps
-count_file = 'data/st_bc1_count_matrix.txt'
-loc_file = 'data/st_bc1_locations.txt'
+count_file = 'st_bc1_count_matrix.txt'
+loc_file = 'st_bc1_locations.txt'
 spatial_maps <- run_spatial_map_estimation(res, count_file , loc_file)
 
 # plot the spatial maps
 plots <- spatial_map_visualization(spatial_maps)
-pdf('plots/spatial_maps_st_bc1.pdf')
+pdf('spatial_maps_st_bc1.pdf')
 for(p in plots){
     print(p)
 }
@@ -403,14 +531,12 @@ Spatial map of the tissue module representing DCIS for layer 1:
 
 ## Example analysis: human dorsolateral prefrontal cortex profiled by 10x Visium<a id='example-dlpfc'></a>
 
-For 10x Visium data, we recommend using the GPU version of STModule.
-
 ```r
 library('STModule')
 
 # data pre-processing 
-count_file = 'data/visium_dlpfc_151676_count_matrix.txt'
-loc_file = 'data/visium_dlpfc_151676_locations.txt'
+count_file = 'visium_dlpfc_151676_count_matrix.txt'
+loc_file = 'visium_dlpfc_151676_locations.txt'
 data <- data_preprocessing(count_file, loc_file)
 
 # run STModule, using the GPU version
@@ -418,7 +544,7 @@ res = run_STModule(data, 10, version = 'gpu')
 
 # visualize spatial maps
 plots <- spatial_map_visualization(res, 'log', point_size = 2)
-pdf('plots/visium_dlpfc_151676_spatial_maps.pdf')
+pdf('visium_dlpfc_151676_spatial_maps.pdf')
 for(p in plots){
     print(p)
 }
@@ -426,23 +552,23 @@ dev.off()
 
 # get and save assocaited genes
 module_genes <- get_assocaited_genes(res)
-write.table(module_genes, file = 'results/visium_dlpfc_151676_module_associated_genes.txt', sep = '\t', row.names = FALSE)
+write.table(module_genes, file = 'visium_dlpfc_151676_module_associated_genes.txt', sep = '\t', row.names = FALSE)
 
 # visualize activities of assocaited genes of the modules
 plots <- associated_gene_visualization(res)
-pdf('plots/visium_dlpfc_151676_associated_gene_activity.pdf')
+pdf('visium_dlpfc_151676_associated_gene_activity.pdf')
 for(p in plots){
     print(p)
 }
 dev.off()
 
 # plot spatial expression of genes in the raw data
-count_file = 'data/visium_dlpfc_151676_count_matrix.txt'
-loc_file = 'data/visium_dlpfc_151676_locations.txt'
+count_file = 'visium_dlpfc_151676_count_matrix.txt'
+loc_file = 'visium_dlpfc_151676_locations.txt'
 spatial_expression_visualization(count_file, loc_file, c('AQP4', 'PCP4'), point_size = 2)
 ```
 
-Example of a spatial map:
+Demonstration of a spatial map:
 
 <img width="300" alt="example_dlpfc" src="https://github.com/rwang-z/STModule/assets/57746198/643ce62b-43cc-4ca2-9886-345e0d08ce5b">
 
@@ -452,22 +578,32 @@ Example of a spatial map:
 
 ## Example analysis: mouse olfactory bulb profiled by Slide-seqV2<a id='example-mob'></a>
 
-For Slide-seqV2 data, we recommend using the GPU version of STModule.
-
 ```r
 library('STModule')
 
 # data pre-processing 
-count_file = 'data/slide_seq_v2_mob_count_matrix.txt'
-loc_file = 'data/slide_seq_v2_mob_locations.txt'
-data <- data_preprocessing(count_file, loc_file, high_resolution = TRUE, gene_filtering = 50)
+count_file = 'slide_seq_v2_mob_count_matrix.txt'
+loc_file = 'slide_seq_v2_mob_locations.txt'
+data <- data_preprocessing(count_file, loc_file, high_resolution = TRUE, gene_filtering = 50, cell_thresh = 100)
 
 # run STModule, using the GPU version
 res = run_STModule(data, 10, high_resolution = TRUE, max_iter = 100, version = 'gpu')
 
 # visualize spatial maps
 plots <- spatial_map_visualization(res, 'log', point_size = 0.3)
-pdf('plots/slide_seqv2_mob_spatial_maps.pdf')
+pdf('slide_seqv2_mob_spatial_maps.pdf')
+for(p in plots){
+    print(p)
+}
+dev.off()
+
+# get and save assocaited genes
+module_genes <- get_assocaited_genes(res)
+write.table(module_genes, file = 'slide_seqv2_mob_module_associated_genes.txt', sep = '\t', row.names = FALSE)
+
+# visualize activities of assocaited genes of the modules
+plots <- associated_gene_visualization(res)
+pdf('slide_seqv2_mob_associated_gene_activity.pdf')
 for(p in plots){
     print(p)
 }
@@ -475,34 +611,31 @@ dev.off()
 
 ```
 
-Example of a spatial map:
+Demonstration of a spatial map:
 
 <img width="500" alt="example_mob_slide_seqv2" src="https://github.com/rwang-z/STModule/assets/57746198/be1f58d9-86ae-4bcd-84ee-cd69adbef8a9">
-
 
 &nbsp;
 &nbsp;
 
 ## Example analysis: applying the tissue modules identified from ST MOB data to your own data<a id='example-mob-application'></a>
 
-We provide the results of STModule on the ST MOB data mentioned in the study: <a href="https://drive.google.com/drive/folders/15jKtTqfeDMtPaXJgDYeg55aiD-HcvtQs?usp=sharing">download here</a>
+We provide the results of STModule for the ST MOB data *(<a href="https://www.science.org/doi/10.1126/science.aaf2403">Ståhl et al., 2016</a>)*, available <a href="https://drive.google.com/drive/folders/15jKtTqfeDMtPaXJgDYeg55aiD-HcvtQs">here</a>. 
+
+You can load the result ('STModule_res_st_mob.RData'), apply the tissue modules to other MOB datasets (same data format required as mentioned above), and estimate the corresponding spatial maps as follows:
 
 ```r
 library('STModule')
-load('results/STModule_res_st_mob.RData')
-```
+load('STModule_res_st_mob.RData')
 
-You can apply the tissue modules to other MOB datasets (same data format required as mentioned above) and estimate the corresponding spatial maps using the following code:
-
-```r
 # estimate spatial maps on the new data
 count_file = 'path to the count matrix of your MOB data'
 loc_file = 'path to the spatial information of your MOB data'
 spatial_maps <- run_spatial_map_estimation(res, count_file, loc_file, high_resolution, file_sep, cell_thresh, max_iter, version)
 
 # plot the spatial maps
-plots <- spatial_map_visualization(spatial_maps)
-pdf('plots/spatial_maps_new_mob_data.pdf')
+plots <- spatial_map_visualization(spatial_maps, normalization, point_size)
+pdf('spatial_maps_new_mob_data.pdf')
 for(p in plots){
     print(p)
 }
@@ -511,18 +644,18 @@ dev.off()
 
 &nbsp;
 
-Example of applying the tissue modules to the Slide-seqV2 MOB data (using the GPU version of STModule):
+Example of applying the tissue modules to the Slide-seqV2 MOB data:
 
 ```r
 library('STModule')
-load('results/STModule_res_st_mob.RData')
+load('STModule_res_st_mob.RData')
 
-count_file = 'data/slide_seq_v2_mob_count_matrix.txt'
-loc_file = 'data/slide_seq_v2_mob_locations.txt'
+count_file = 'slide_seq_v2_mob_count_matrix.txt'
+loc_file = 'slide_seq_v2_mob_locations.txt'
 spatial_maps <- run_spatial_map_estimation(res, count_file, loc_file, high_resolution = TRUE, max_iter = 100, version = 'gpu')
 
 plots <- spatial_map_visualization(spatial_maps, 'log', point_size = 0.3)
-pdf('plots/spatial_maps_new_mob_data.pdf')
+pdf('spatial_maps_new_mob_data.pdf')
 for(p in plots){
     print(p)
 }
@@ -531,7 +664,7 @@ dev.off()
 
 &nbsp;
 
-Example of tissue modules identified from ST MOB data and estimated spatial maps for Slide-seqV2 MOB data:
+Demonstration of several tissue modules identified from ST MOB data and corresponding spatial maps for the Slide-seqV2 MOB data:
 
 <img width="300" alt="mob_st_1" src="https://github.com/rwang-z/STModule/assets/57746198/fd84f490-08bb-4fd8-b3b0-ea77ed08e8d2">
 <img width="300" alt="mob_st_2" src="https://github.com/rwang-z/STModule/assets/57746198/be0c502d-c77a-4269-88cf-74286005a379">
