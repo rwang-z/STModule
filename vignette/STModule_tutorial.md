@@ -379,7 +379,7 @@ Spatial map of the tissue module representing DCIS for layer 1:
 For 10x Visium data, we recommend using the GPU version of STModule.
 
 ```r
-source('STModule.r')
+library('STModule')
 
 # data pre-processing 
 count_file = 'data/visium_dlpfc_151676_count_matrix.txt'
@@ -428,7 +428,7 @@ Example of a spatial map:
 For Slide-seqV2 data, we recommend using the GPU version of STModule.
 
 ```r
-source('STModule.r')
+library('STModule')
 
 # data pre-processing 
 count_file = 'data/slide_seq_v2_mob_count_matrix.txt'
@@ -461,6 +461,7 @@ Example of a spatial map:
 We provide the results of STModule on the ST MOB data mentioned in the study: <a href="https://drive.google.com/drive/folders/15jKtTqfeDMtPaXJgDYeg55aiD-HcvtQs?usp=sharing">download here</a>
 
 ```r
+library('STModule')
 load('results/STModule_res_st_mob.RData')
 ```
 
@@ -486,8 +487,7 @@ dev.off()
 Example of applying the tissue modules to the Slide-seqV2 MOB data (using the GPU version of STModule):
 
 ```r
-source('STModule.r')
-
+library('STModule')
 load('results/STModule_res_st_mob.RData')
 
 count_file = 'data/slide_seq_v2_mob_count_matrix.txt'
