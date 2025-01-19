@@ -4,13 +4,13 @@ All data used in this tutorial is available <a href="https://drive.google.com/dr
 
 In this tutorial, we first demonstrate the step-by-step usage of STModule with a breast cancer dataset profiled by ST *(<a href="https://www.science.org/doi/10.1126/science.aaf2403">Ståhl et al., 2016</a>)*, using the following files:
 
-- 'st_bc2_count_matrix.txt'
+- st_bc2_count_matrix.txt
 
-- 'st_bc2_locations.txt'
+- st_bc2_locations.txt
 
-- 'st_bc1_count_matrix.txt'
+- st_bc1_count_matrix.txt
 
-- 'st_bc1_locations.txt'
+- st_bc1_locations.txt
 
 Then we provide three additional examples of analysis:
 
@@ -622,7 +622,7 @@ Demonstration of a spatial map:
 
 We provide the results of STModule for the ST MOB data *(<a href="https://www.science.org/doi/10.1126/science.aaf2403">Ståhl et al., 2016</a>)*, available <a href="https://drive.google.com/drive/folders/15jKtTqfeDMtPaXJgDYeg55aiD-HcvtQs">here</a>. 
 
-You can load the result ('STModule_res_st_mob.RData'), apply the tissue modules to other MOB datasets (same data format required as mentioned above), and estimate the corresponding spatial maps as follows:
+You can load the result (STModule_res_st_mob.RData), apply the tissue modules to other MOB datasets (same data format required as mentioned above), and estimate the corresponding spatial maps as follows:
 
 ```r
 library('STModule')
