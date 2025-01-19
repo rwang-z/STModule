@@ -94,9 +94,6 @@ loc_10 18.877 6.984
 ```
 
 &nbsp;
-
-For a demonstration of STModule, in the first part of the tutorial, we use breast cancer Layer2 data profiled by ST (Ståhl et al., Visualization and analysis of gene expression in tissue sections by spatial transcriptomics, Science 2016) available at <a href="https://drive.google.com/drive/folders/15jKtTqfeDMtPaXJgDYeg55aiD-HcvtQs?usp=sharing">Google Drive</a>.
-
 &nbsp;
 
 ## Data pre-processing<a id='data-pre-processing'></a>
@@ -115,8 +112,8 @@ data_preprocessing(count_file, loc_file, high_resolution = FALSE, gene_mode = 'H
 - `loc_file`: path and file name of the spatial information
 
 - `high_resolution`: a boolean value to indicate spatial resolution of the data.
-  - `high_resolution = TRUE`: used for data profiled by 'Slide-seq', 'Slide-seqV2', 'Stereo-seq', etc.
-  - `high_resolution = FALSE`: used for data profiled by 'ST', '10x Visium', etc. (default)
+  - `high_resolution = TRUE`: used for data profiled by Slide-seq, Slide-seqV2, Stereo-seq, etc.
+  - `high_resolution = FALSE`: used for data profiled by ST, 10x Visium, etc. (default)
   
 - `gene_mode`: the way to select genes for the analysis. 
   - `gene_mode = 'HVG'`: to use top highly variable genes selected by Seurat (default)
@@ -152,7 +149,7 @@ data <- data_preprocessing(count_file, loc_file, high_resolution = TRUE, gene_fi
 
 &nbsp;
 
-Example for breast cancer layer 2 profiled by ST (available at <a href="https://drive.google.com/drive/folders/15jKtTqfeDMtPaXJgDYeg55aiD-HcvtQs?usp=sharing">Google Drive</a>):
+Example for breast cancer layer 2 profiled by ST:
 
 ```r
 count_file = 'data/st_bc2_count_matrix.txt'
@@ -174,13 +171,17 @@ run_STModule(data, num_modules, high_resolution = FALSE, max_iter = 2000, versio
 **Parameters**:
 - `data`: result of the function `data_preprocessing()`, generated data after data preprocessing
   
-- `num_modules`: number of tissue modules to identify
+- `num_modules`: number of tissue modules to identify.
   
-- `high_resolution`: to indicate spatial resolution of the data
-  - `high_resolution = TRUE`: used for data profiled by 'Slide-seq', 'Slide-seqV2', 'Stereo-seq', etc.
-  - `high_resolution = FALSE`: used for data profiled by 'ST', '10x Visium', etc. (default)
+  To identify major expression components of a tissue section, we recommend setting `num_modules = 10`. If you want to identify more detailed components, please use a larger number for this parameter.
+  
+- `high_resolution`: a boolean value to indicate spatial resolution of the data
+  - `high_resolution = TRUE`: used for data profiled by Slide-seq, Slide-seqV2, Stereo-seq, etc.
+  - `high_resolution = FALSE`: used for data profiled by ST, 10x Visium, etc. (default)
 
-- `max_iter`: maximum iteration, default 2000
+- `max_iter`: number of maximum iterations, default 2000
+
+  For this parameter, we recommend using the default setting for data profiled by ST and 10x Visium, and setting `max_iter = 100` for high-resolution data for efficiency.
 
 - `version`: to use CPU or GPU version of STModule
   - `version = 'cpu'`: used for ST data (default)
