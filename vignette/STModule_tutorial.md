@@ -295,7 +295,6 @@ spatial_expression_visualization(count_file, loc_file, gene_list, file_sep = '\t
   - 10x Visium data: `point_size = 2`
   - Slide-seqV2 and Stereo-seq data: `point_size = 0.3`
 
-The function plots the spatial expression of the genes into files in the folder ‘plots’.
 
 &nbsp;
 
