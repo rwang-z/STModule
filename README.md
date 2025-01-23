@@ -34,7 +34,7 @@ Session info: <a href="https://github.com/rwang-z/STModule/blob/main/vignette/se
 
 ## Installation
 
-<a href="https://github.com/rwang-z/STModule/blob/main/vignette/installation.md">Installation of STModule</a>
+<a href="https://github.com/rwang-z/STModule/blob/main/vignette/installation.md">Installation of STModule R package</a>
 
 &nbsp;
 
