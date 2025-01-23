@@ -51,7 +51,7 @@ Then we provide three additional examples of analysis:
 ## Load STModule<a id='load-STModule'></a>
 
 ```r
-> library('STModule')
+> library(STModule)
 ```
 
 &nbsp;
