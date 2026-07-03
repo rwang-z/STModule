@@ -14,7 +14,7 @@ conda install conda-forge::r-base=4.4.1
 
 ## Installation of torch for R
 
-**1. Instal CUDA and cuDNN (torch now requires CUDA 11.7):**
+**1. Install CUDA and cuDNN (torch now requires CUDA 11.7):**
 
 ```
 conda install cuda -c nvidia/label/cuda-11.7.0
@@ -27,7 +27,7 @@ Export the path if necessary:
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:your_path_to_conda/envs/STModule/lib
 ```
 
-**2. Instal torch in R:**
+**2. Install torch in R:**
 
 ```r
 install.packages("torch")
