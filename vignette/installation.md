@@ -13,6 +13,9 @@ conda install conda-forge::r-base=4.4.1
 &nbsp;
 
 ## Installation of torch for R
+[Instructions for torch installation](https://torch.mlverse.org/docs/articles/installation.html)
+
+You can install torch using the following method or [install from pre-built binaries](https://torch.mlverse.org/docs/articles/installation.html#pre-built)
 
 **1. Install CUDA and cuDNN (torch now requires CUDA 11.7):**
 
