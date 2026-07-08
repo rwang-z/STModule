@@ -113,6 +113,7 @@ associated_gene_visualization = function(res, quantile_thresh = 0.75){
 #' @param count_file path and file name of the count matrix
 #' @param loc_file path and file name of the spatial information
 #' @param gene_list genes to visualize
+#' @param output_dir output directory of the plots
 #' @param file_sep the field separator character.
 #' @param point_size size of points in the spatial expression plot
 #' - ST data: point_size = 6
@@ -120,24 +121,24 @@ associated_gene_visualization = function(res, quantile_thresh = 0.75){
 #' - Slide-seqV2 and Stereo-seq data: point_size = 0.3
 #' @import ggplot2
 #' @import viridis
-#' @return pdf files, each for the spatial expression of a query gene
+#' @return pdf files in the specified output directory, each for the spatial expression of a query gene
 #' @export spatial_expression_visualization
 
-spatial_expression_visualization = function(count_file, loc_file, gene_list, file_sep = '\t', point_size = 6){
+spatial_expression_visualization = function(count_file, loc_file, gene_list, output_dir, file_sep = '\t', point_size = 6){
     # load data
     print('Loading data...')
     count_mat = read.table(count_file, header = TRUE, sep = file_sep, row.names = 1)
     locations = read.table(loc_file, sep = file_sep, header = TRUE, row.names = 1)
     count_mat = count_mat[rownames(locations),]
+    output_dir <- sub("/$", "", output_dir)
 
     # spatial expression plots
-    plots = list()
     for(gene in gene_list){
         if(gene %in% colnames(count_mat)){
             gene_exp = count_mat[, gene]
             if(sum(gene_exp) > 0){
                 print(paste0('Plotting for gene ', gene))
-                plot_file = paste0('spatial_expression_', gene, '.pdf')
+                plot_file = paste0(output_dir, '/spatial_expression_', gene, '.pdf')
                 pdf(plot_file)
                 pattern_df = locations
                 pattern_df$expression = log2(gene_exp + 1)
