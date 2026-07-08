@@ -8,6 +8,7 @@ spatial_expression_visualization(
   count_file,
   loc_file,
   gene_list,
+  output_dir,
   file_sep = "\\t",
   point_size = 6
 )
@@ -19,6 +20,8 @@ spatial_expression_visualization(
 
 \item{gene_list}{genes to visualize}
 
+\item{output_dir}{output directory of the plots}
+
 \item{file_sep}{the field separator character.}
 
 \item{point_size}{size of points in the spatial expression plot
@@ -29,7 +32,7 @@ spatial_expression_visualization(
 }}
 }
 \value{
-pdf files in the plots folder, each for the spatial expression of a query gene
+pdf files in the specified output directory, each for the spatial expression of a query gene
 }
 \description{
 Plot spatial expression of interested genes
