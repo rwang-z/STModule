@@ -382,7 +382,7 @@ Gene activities of the tissue module representing DCIS:
 We also provide a function `spatial_expression_visualization()` to plot the spatial expression of a list of interested genes:
 
 ```r
-spatial_expression_visualization(count_file, loc_file, gene_list, file_sep = '\t', point_size = 6)
+spatial_expression_visualization(count_file, loc_file, gene_list, output_dir, file_sep = '\t', point_size = 6)
 ```
 
 **Parameters**
@@ -393,6 +393,8 @@ spatial_expression_visualization(count_file, loc_file, gene_list, file_sep = '\t
 
 - `gene_list`: genes to visualize
 
+- `output_dir`: output directory of the plots
+- 
 - `file_sep`: the field separator character, default '\t'
 
 - `point_size`: size of points in the plots. Recommended point size for some SRT technologies:
@@ -402,26 +404,26 @@ spatial_expression_visualization(count_file, loc_file, gene_list, file_sep = '\t
 
 **Output**
 
-- PDF files, each demonstrating the spatial expression of a query gene
+- PDF files in the specified output directory, each demonstrating the spatial expression of a query gene
 
 **Usage**
 
 - For data profiled by **ST**, we recommend using the following setting:
 
 ```r
-spatial_expression_visualization(count_file, loc_file, gene_list, point_size = 6)
+spatial_expression_visualization(count_file, loc_file, gene_list, output_dir = "results/", point_size = 6)
 ```
 
 - For data profiled by **10x Visium**, we recommend using the following setting:
 
 ```r
-spatial_expression_visualization(count_file, loc_file, , gene_list, point_size = 2)
+spatial_expression_visualization(count_file, loc_file, , gene_list, output_dir = "results/", point_size = 2)
 ```
 
 - For **high-resolution data** profiled Slide-seq, Slide-seqV2, Stereo-seq, etc., we recommend using the following setting:
 
 ```r
-spatial_expression_visualization(count_file, loc_file, , gene_list, point_size = 0.3)
+spatial_expression_visualization(count_file, loc_file, , gene_list, output_dir = "results/", point_size = 0.3)
 ```
 
 **Example**
@@ -431,7 +433,7 @@ Example for the breast cancer data:
 ```r
 count_file = 'st_bc2_count_matrix.txt'
 loc_file = 'st_bc2_locations.txt'
-spatial_expression_visualization(count_file, loc_file, c('SPINT2', 'CD74'), point_size = 6)
+spatial_expression_visualization(count_file, loc_file, c('SPINT2', 'CD74'), output_dir = "results/", point_size = 6)
 ```
 
 Spatial expression maps of SPINT2 and CD74 in the breast cancer data:
