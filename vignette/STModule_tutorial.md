@@ -394,7 +394,7 @@ spatial_expression_visualization(count_file, loc_file, gene_list, output_dir, fi
 - `gene_list`: genes to visualize
 
 - `output_dir`: output directory of the plots
-- 
+
 - `file_sep`: the field separator character, default '\t'
 
 - `point_size`: size of points in the plots. Recommended point size for some SRT technologies:
