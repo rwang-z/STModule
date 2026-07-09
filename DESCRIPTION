@@ -7,7 +7,11 @@ Description: STModule is a tool to identify expression components from spatial t
 License: GPL
 Encoding: UTF-8
 Depends: R (>= 4.4.1)
-Imports: GPUmatrix, ggplot2, ggrepel, viridis
+Imports: 
+    GPUmatrix (== 1.0.2), 
+    ggplot2, 
+    ggrepel, 
+    viridis
 Suggests: Seurat, torch
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
