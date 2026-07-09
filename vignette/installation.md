@@ -64,4 +64,6 @@ library(devtools)
 devtools::install_github('rwang-z/STModule')
 ```
 
+STModule uses GPUmatrix 1.0.2. Please **do not** update GPUmatrix during installation.
+
 Please input your GitHub token using `gitcreds::gitcreds_set()` if a GitHub API rate limit error occurs.
